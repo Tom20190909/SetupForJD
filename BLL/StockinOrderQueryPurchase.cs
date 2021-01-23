@@ -14,7 +14,7 @@ using log4net;
 
 namespace SleckEc2KdInterface.BLL
 {
-    class StockinOrderQueryPurchase
+    class StockOutInOrderQuery
     {
         private static ILog Logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         static DbContext dbContext = new DbContext();

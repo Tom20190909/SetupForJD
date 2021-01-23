@@ -11,14 +11,14 @@ namespace SleckEc2KdInterface.JOB
     [DisallowConcurrentExecution]
     class EcJob : IJob
     {
-        StockinOrderQueryPurchase stockinOrderQueryPurchase = new StockinOrderQueryPurchase();
+        StockOutInOrderQuery stockOutInOrderQuery = new StockOutInOrderQuery();
         public async Task Execute(IJobExecutionContext context)
         {
             await Task.Run(() =>
             {
-                stockinOrderQueryPurchase.GetPurData();
-                stockinOrderQueryPurchase.GetSaleOutData();
-                stockinOrderQueryPurchase.GetSaleReturnData();
+                stockOutInOrderQuery.GetPurData();
+                stockOutInOrderQuery.GetSaleOutData();
+                stockOutInOrderQuery.GetSaleReturnData();
 
             });
         }
