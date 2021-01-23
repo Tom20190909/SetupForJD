@@ -1,0 +1,4 @@
+﻿1>------ 已启动生成: 项目: SleckEc2KdInterface, 配置: Debug Any CPU ------
+1>D:\开发\SleckEc2KdInterface\OPENAPI\WdtApi.cs(73,30,73,32): warning CS0168: 声明了变量“ex”，但从未使用过
+1>  SleckEc2KdInterface -> D:\开发\SleckEc2KdInterface\bin\Debug\SleckEc2KdInterface.exe
+========== 生成: 成功 1 个，失败 0 个，最新 0 个，跳过 0 个 ==========
