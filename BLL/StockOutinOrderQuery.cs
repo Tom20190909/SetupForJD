@@ -38,13 +38,13 @@ namespace SleckEc2KdInterface.BLL
                 starttime = DateTime.Parse(maxRec.Check_Time.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
             }
 
-            endtime = DateTime.Parse(starttime).AddDays(1) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
+            endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
 
             Logger.Info(DateTime.Now.ToLongTimeString() + "开始获取旺店通采购入库单数据时间范围:" + starttime + "--" + endtime);
             Dictionary<string, string> dt = new Dictionary<string, string>();
             dt.Add("start_time", starttime);
             dt.Add("end_time", endtime);
-            dt.Add("warehouse_no", ConfigurationManager.AppSettings["warehouse_no"].ToString());
+         //   dt.Add("warehouse_no", ConfigurationManager.AppSettings["warehouse_no"].ToString());
             dt.Add("status", ConfigurationManager.AppSettings["purbillstatus"].ToString());
             JObject resultobj = JObject.Parse(GetWdtDataBLL.GetDataFromApi(dt, "stockin_order_query_purchase.php"));
 
@@ -81,16 +81,16 @@ namespace SleckEc2KdInterface.BLL
                 starttime = DateTime.Parse(maxRec.Consign_Time.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
             }
 
-            endtime = DateTime.Parse(starttime).AddHours(1) > DateTime.Now ? DateTime.Parse(starttime).AddHours(1).ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddHours(1).ToString("yyyy-MM-dd HH:mm:ss");
+            endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
 
             Logger.Info(DateTime.Now.ToLongTimeString() + "开始获取旺店通销售出库单数据时间范围:" + starttime + "--" + endtime);
             Dictionary<string, string> dt = new Dictionary<string, string>();
             dt.Add("start_time", starttime);
             dt.Add("end_time", endtime);
-            dt.Add("shop_no", ConfigurationManager.AppSettings["shop_no"].ToString());
+        //    dt.Add("shop_no", ConfigurationManager.AppSettings["shop_no"].ToString());
             dt.Add("status", ConfigurationManager.AppSettings["saleoutbillstatus"].ToString());
             JObject resultobj = JObject.Parse(GetWdtDataBLL.GetDataFromApi(dt, "stockout_order_query_trade.php"));
-
+          //  Logger.Info(resultobj.ToString());
             if (resultobj["code"].ToString() == "0")
             {
 
@@ -123,7 +123,7 @@ namespace SleckEc2KdInterface.BLL
                 starttime = DateTime.Parse(maxRec.Check_Time.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
             }
 
-            endtime = DateTime.Parse(starttime).AddDays(1) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
+            endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
 
             Logger.Info(DateTime.Now.ToLongTimeString() + "开始获取旺店通销售退货单数据时间范围:" + starttime + "--" + endtime);
             Dictionary<string, string> dt = new Dictionary<string, string>();
@@ -260,7 +260,6 @@ namespace SleckEc2KdInterface.BLL
 
         }
 
-
         private void ConvertSale(JObject obj)
         {
             int insertrec = 0;
@@ -308,7 +307,7 @@ namespace SleckEc2KdInterface.BLL
                             continue;
                         }
 
-                        stockInfos.Add(stockInfo);
+                      
                         //明细数据
                         JArray detailRec = JArray.Parse(tempo["details_list"].ToString());
                         for (int j = 0; j < detailRec.Count; j++)
