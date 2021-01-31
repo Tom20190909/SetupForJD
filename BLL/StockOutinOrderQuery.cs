@@ -41,7 +41,7 @@ namespace SleckEc2KdInterface.BLL
             //{
             //    starttime = DateTime.Parse(maxRec.Check_Time.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
             //}
-            StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select strattime from vwe_purmaxtimefor_openapi").First();
+            StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select starttime from vwe_purmaxtimefor_openapi").First();
 
 
             if (maxRec != null)
@@ -93,7 +93,7 @@ namespace SleckEc2KdInterface.BLL
             //{
             //    starttime = DateTime.Parse(maxRec.Consign_Time.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
             //}
-            StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select strattime from vwe_saleoutmaxtimefor_openapi").First();
+            StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select starttime from vwe_saleoutmaxtimefor_openapi").First();
             if (maxRec != null)
             {
                 starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
@@ -144,7 +144,7 @@ namespace SleckEc2KdInterface.BLL
             //    starttime = DateTime.Parse(maxRec.Check_Time.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
             //}
 
-            StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select strattime  from vwe_salereturnmaxtimefor_openapi").First();
+            StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select starttime  from vwe_salereturnmaxtimefor_openapi").First();
             if (maxRec != null)
             {
                 starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
@@ -530,7 +530,7 @@ namespace SleckEc2KdInterface.BLL
             //select* from vwe_salereturnmaxtimefor_openapi
             //select* from vwe_salereturnmaxtimefor_qmapi
             //vwe_purmaxtimefor_openapi
-           StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select strattime from vwe_saleoutmaxtimefor_qmapi").First();
+           StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select starttime from vwe_saleoutmaxtimefor_qmapi").First();
            
             
             if (maxRec != null)
@@ -703,7 +703,7 @@ namespace SleckEc2KdInterface.BLL
             string tbshop_no = ConfigurationManager.AppSettings["tbshop_no"].ToString();
             string endtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-            StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select strattime from vwe_salereturnmaxtimefor_qmapi").First();
+            StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select starttime from vwe_salereturnmaxtimefor_qmapi").First();
             if (maxRec != null)
             {
                 starttime = maxRec.starttime.ToString("yyyy-MM-dd HH:mm:ss");
