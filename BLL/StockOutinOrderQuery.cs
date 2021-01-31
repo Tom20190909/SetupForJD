@@ -831,8 +831,8 @@ namespace SleckEc2KdInterface.BLL
 
                     Logger.Info(DateTime.Now.ToLongTimeString() + "开启事务，保存数据...");
                     dbContext.Db.BeginTran();//开启事务
-                    bool flag1 = dbContext.SaleStockOutInfoDb.InsertRange(stockInfos.ToArray());
-                    bool flag2 = dbContext.SaleStockOutItemDb.InsertRange(stockItems.ToArray());
+                    bool flag1 = dbContext.SaleReturnStockInfoDb.InsertRange(stockInfos.ToArray());
+                    bool flag2 = dbContext.SaleReturnStockItemDb.InsertRange(stockItems.ToArray());
                     if (flag1 & flag2)
                     {
                         dbContext.Db.CommitTran();
