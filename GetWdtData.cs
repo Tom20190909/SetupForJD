@@ -23,7 +23,7 @@ namespace SleckEc2KdInterface
         private PurOrder purOrder;
         private SaleOutOrder saleOutOrder;
         private SaleReturnOrder saleReturnOrder;
-        DbContext dbContext = new DbContext();
+        DbContext dbContext = new DbContext(false);
         public GetWdtData()
         {
             InitializeComponent();

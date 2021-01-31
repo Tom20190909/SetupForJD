@@ -102,15 +102,20 @@
     <Compile Include="BLL\StockOutinOrderQuery.cs" />
     <Compile Include="DAL\DbContext.cs" />
     <Compile Include="DAL\DbSet.cs" />
+    <Compile Include="Entity\detailslist.cs" />
     <Compile Include="Entity\PurOrder.cs" />
     <Compile Include="Entity\SaleOutOrder.cs" />
     <Compile Include="Entity\SaleReturnOrder.cs" />
+    <Compile Include="Entity\starttime.cs" />
     <Compile Include="Entity\T_Pur_StockInfo.cs" />
     <Compile Include="Entity\T_Pur_StockItem.cs" />
     <Compile Include="Entity\T_Sale_ReturnStockInfo.cs" />
     <Compile Include="Entity\T_Sale_ReturnStockItem.cs" />
     <Compile Include="Entity\T_Sale_StockOutInfo.cs" />
     <Compile Include="Entity\T_Sale_StockOutItem.cs" />
+    <Compile Include="Entity\wdtstockout.cs" />
+    <Compile Include="Entity\wdtthOrder.cs" />
+    <Compile Include="Entity\wdtthOrderinfo.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

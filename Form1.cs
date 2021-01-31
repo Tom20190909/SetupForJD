@@ -11,7 +11,7 @@ namespace SleckEc2KdInterface
 {
     public partial class Form1 : Form
     {
-        DbContext dbContext = new DbContext();
+        DbContext dbContext = new DbContext(false);
 
         public Form1()
         {
