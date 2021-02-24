@@ -24,6 +24,8 @@ namespace SleckEc2KdInterface.JOB
                stockOutInOrderQuery.GetSaleReturnData();
                 //奇门销售出库单
                stockOutInOrderQuery.GetTBSaleOutData();
+                //奇门销售退货单
+
 
             });
         }

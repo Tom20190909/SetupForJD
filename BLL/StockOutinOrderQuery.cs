@@ -28,6 +28,8 @@ namespace SleckEc2KdInterface.BLL
 
         }
 
+       
+
         //网店通采购入库单
         public void GetPurData()
         {
@@ -402,6 +404,13 @@ namespace SleckEc2KdInterface.BLL
 
         }
 
+
+
+
+
+
+
+
         private void ConvertSaleReturn(JObject obj)
         {
             int insertrec = 0;
@@ -535,26 +544,23 @@ namespace SleckEc2KdInterface.BLL
             
             if (maxRec != null)
             {
-                starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+                  starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+               // starttime = DateTime.Parse("2021-02-03 00:00:01").ToString("yyyy-MM-dd HH:mm:ss");
             }
-
-            endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
-
+          //  endtime= DateTime.Parse("2021-02-03 23:59:59").ToString("yyyy-MM-dd HH:mm:ss");
+             endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
+            string[] shops = new string[] { "TM01", "002" };
             Logger.Info(DateTime.Now.ToLongTimeString() + "开始获取奇门销售出库单数据时间范围:" + starttime + "--" + endtime);
-            List<wdtstockout> orderlst = dbContextTB.wdtstockoutTBDb.GetList(h => SqlFunc.Between(h.Consign_Time, starttime, endtime) && h.Status == ConfigurationManager.AppSettings["saleoutbillstatustb"].ToString()) ;
+            List<wdtstockout> orderlst = dbContextTB.wdtstockoutTBDb.GetList(h => SqlFunc.Between(h.Consign_Time, starttime, endtime) && (h.Status == "95" || h.Status == "110") && shops.Contains(h.Shop_No)) ;
 
-          
             if (orderlst.Count>0)
             {
                  Logger.Info(DateTime.Now.ToLongTimeString() + "查询成功,获得奇门销售出库记录数:" + orderlst.Count.ToString());
                  ConvertSaleTB(orderlst);
-
-
             }
             else
             {
                  Logger.Info(DateTime.Now.ToLongTimeString() + "获取到奇门销售出库单记录数为0，无须转换与保存，任务结束");
-
             }
         }
 
@@ -735,7 +741,7 @@ namespace SleckEc2KdInterface.BLL
             int insertrec = 0;
             try
             {
-                Logger.Info(DateTime.Now.ToLongTimeString() + "开始转换并保存获取到的奇门销售出库单数据...");
+                Logger.Info(DateTime.Now.ToLongTimeString() + "开始转换并保存获取到的奇门销售退货单数据...");
                 T_Sale_ReturnStockInfo stockInfo;
                 T_Sale_ReturnStockItem stockItem;
                 List<T_Sale_ReturnStockInfo> stockInfos = new List<T_Sale_ReturnStockInfo>();

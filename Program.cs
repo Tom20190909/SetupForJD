@@ -33,6 +33,11 @@ namespace SleckEc2KdInterface
                     o.SetDescription("自动获取旺店通数据及转存至金蝶云");
 
                 });
+
+                //Application.EnableVisualStyles();
+                //Application.SetCompatibleTextRenderingDefault(false);
+                ////  Application.Run(new calendar());
+                //Application.Run(new Form1());
             }
             catch(Exception ex)
             {
