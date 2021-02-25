@@ -20,6 +20,10 @@ namespace SleckEc2KdInterface.BLL
         private static ILog Logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         static DbContext dbContext = new DbContext(false);
         static DbContext dbContextTB = new DbContext(true);
+        List<T_Sale_StockOutInfo> stockInfos;
+        List<T_Sale_StockOutItem> stockItems;
+        List<T_Sale_ReturnStockInfo> returnInfos;
+        List<T_Sale_ReturnStockItem> returnItems;
         private PropertyInfo[] ForeachClassProperties<T>()
         {
             Type t = typeof(T);
@@ -90,27 +94,24 @@ namespace SleckEc2KdInterface.BLL
             string starttime = ConfigurationManager.AppSettings["saleoutstarttime"].ToString();
             string endtime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
-            //var maxRec = dbContext.Db.Queryable<T_Sale_StockOutInfo>().OrderBy("consign_time desc").First();
-            //if (maxRec != null)
-            //{
-            //    starttime = DateTime.Parse(maxRec.Consign_Time.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
-            //}
             StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select starttime from vwe_saleoutmaxtimefor_openapi").First();
             if (maxRec != null)
             {
-                starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+                 starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+               // starttime = DateTime.Parse("2021-02-25 00:00:00").ToString("yyyy-MM-dd HH:mm:ss");
             }
 
+           // endtime = DateTime.Parse("2021-02-25 23:54:00").ToString("yyyy-MM-dd HH:mm:ss");
 
 
-            endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
+              endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
 
             Logger.Info(DateTime.Now.ToLongTimeString() + "开始获取旺店通销售出库单数据时间范围:" + starttime + "--" + endtime);
             Dictionary<string, string> dt = new Dictionary<string, string>();
             dt.Add("start_time", starttime);
             dt.Add("end_time", endtime);
         //    dt.Add("shop_no", ConfigurationManager.AppSettings["shop_no"].ToString());
-            dt.Add("status", ConfigurationManager.AppSettings["saleoutbillstatus"].ToString());
+          //  dt.Add("status","110");
             JObject resultobj = JObject.Parse(GetWdtDataBLL.GetDataFromApi(dt, "stockout_order_query_trade.php"));
           //  Logger.Info(resultobj.ToString());
             if (resultobj["code"].ToString() == "0")
@@ -118,8 +119,63 @@ namespace SleckEc2KdInterface.BLL
 
                 if (resultobj["total_count"].ToString() != "0")
                 {
-                    Logger.Info(DateTime.Now.ToLongTimeString() + "查询成功,获得记录数:" + resultobj["total_count"].ToString());
-                    ConvertSale(resultobj);
+                    stockInfos = new List<T_Sale_StockOutInfo>();
+                    stockItems = new List<T_Sale_StockOutItem>();
+                    int pagetotal = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(resultobj["total_count"].ToString()) / 40));
+                    Logger.Info(DateTime.Now.ToLongTimeString() + "查询成功,获得记录数:" + resultobj["total_count"].ToString()+";页数为"+ pagetotal);
+                    for(int i=0;i<pagetotal;i++)
+                    {
+                        Logger.Info(DateTime.Now.ToLongTimeString() + $"查询第{i+1}页销售出库单数据...");
+                        dt = new Dictionary<string, string>();
+                        dt.Add("start_time", starttime);
+                        dt.Add("end_time", endtime);
+                        dt.Add("page_size","40");
+                        dt.Add("page_no",i.ToString());
+                       // dt.Add("status", ConfigurationManager.AppSettings["saleoutbillstatus"].ToString());
+                        resultobj = JObject.Parse(GetWdtDataBLL.GetDataFromApi(dt, "stockout_order_query_trade.php"));
+                        //if (i>5 && i<9)
+                        //{
+                        //    Logger.Info(resultobj.ToString());
+                        //}
+                        ConvertSale(resultobj);
+                        Logger.Info(DateTime.Now.ToLongTimeString() + $"保存转换第{i + 1}页销售出库单数据完成");
+                    }
+                   
+                   
+                    if (stockInfos.Count > 0)
+                    {
+                        try
+                        {
+                            Logger.Info(DateTime.Now.ToLongTimeString() + "开启事务，保存数据...");
+                            dbContext.Db.BeginTran();//开启事务
+                            bool flag1 = dbContext.SaleStockOutInfoDb.InsertRange(stockInfos.ToArray());
+                            bool flag2 = dbContext.SaleStockOutItemDb.InsertRange(stockItems.ToArray());
+                            if (flag1 & flag2)
+                            {
+                                dbContext.Db.CommitTran();
+                                Logger.Info(DateTime.Now.ToLongTimeString() + "保存成功，提交事务，共同步单据数：" + stockInfos.Count.ToString());
+                            }
+                            else
+                            {
+                                dbContext.Db.RollbackTran();
+                                Logger.Info(DateTime.Now.ToLongTimeString() + "保存数据失败,事务回滚");
+                            }
+                        }
+                        catch(Exception er)
+                        {
+                            Logger.Info(DateTime.Now.ToLongTimeString() + "运行错误:" + er.Message);
+                            dbContext.Db.RollbackTran();
+                            Logger.Info(DateTime.Now.ToLongTimeString() + "事务回滚");
+                        }
+                        finally
+                        {
+                            Logger.Info(DateTime.Now.ToLongTimeString() + "获取旺店通销售出库单数据结束");
+                        }
+                    }
+                    else
+                    {
+                        Logger.Info(DateTime.Now.ToLongTimeString() + "没有需要保存的数据!");
+                    }
                 }
                 else
                 {
@@ -149,7 +205,8 @@ namespace SleckEc2KdInterface.BLL
             StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select starttime  from vwe_salereturnmaxtimefor_openapi").First();
             if (maxRec != null)
             {
-                starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+                  starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+              //  starttime = DateTime.Parse("2021-02-01").ToString("yyyy-MM-dd HH:mm:ss");
             }
 
             endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
@@ -167,8 +224,56 @@ namespace SleckEc2KdInterface.BLL
 
                 if (resultobj["total_count"].ToString() != "0")
                 {
-                    Logger.Info(DateTime.Now.ToLongTimeString() + "查询成功,获得记录数:" + resultobj["total_count"].ToString());
-                    ConvertSaleReturn(resultobj);
+                    returnInfos = new List<T_Sale_ReturnStockInfo>();
+                    returnItems = new List<T_Sale_ReturnStockItem>();
+                    int pagetotal = Convert.ToInt32(Math.Ceiling(Convert.ToDecimal(resultobj["total_count"].ToString()) / 30));
+                    Logger.Info(DateTime.Now.ToLongTimeString() + "查询成功,获得记录数:" + resultobj["total_count"].ToString() + ";页数为" + pagetotal);
+                    for (int i=0;i<pagetotal;i++)
+                    {
+                        Logger.Info(DateTime.Now.ToLongTimeString() + $"查询第{i + 1}页销售退货单数据...");
+                        dt = new Dictionary<string, string>();
+                        dt.Add("start_time", starttime);
+                        dt.Add("end_time", endtime);
+                        dt.Add("page_no", i.ToString());
+                        dt.Add("status", ConfigurationManager.AppSettings["salereturnbillstatus"].ToString());
+                        resultobj = JObject.Parse(GetWdtDataBLL.GetDataFromApi(dt, "stockin_order_query_refund.php"));
+                        ConvertSaleReturn(resultobj);
+                        Logger.Info(DateTime.Now.ToLongTimeString() + $"转换保存第{i + 1}页销售退货单数据完成");
+                    }
+                    if (returnInfos.Count > 0)
+                    {
+                        try
+                        {
+                            Logger.Info(DateTime.Now.ToLongTimeString() + "开启事务，保存数据...");
+                            dbContext.Db.BeginTran();//开启事务
+                            bool flag1 = dbContext.SaleReturnStockInfoDb.InsertRange(returnInfos.ToArray());
+                            bool flag2 = dbContext.SaleReturnStockItemDb.InsertRange(returnItems.ToArray());
+                            if (flag1 & flag2)
+                            {
+                                dbContext.Db.CommitTran();
+                                Logger.Info(DateTime.Now.ToLongTimeString() + "保存成功，提交事务，共同步单据数：" + returnInfos.Count.ToString());
+                            }
+                            else
+                            {
+                                dbContext.Db.RollbackTran();
+                                Logger.Info(DateTime.Now.ToLongTimeString() + "保存数据失败,事务回滚");
+                            }
+                        }
+                        catch (Exception er)
+                        {
+                            Logger.Info(DateTime.Now.ToLongTimeString() + "出现错误:" + er.Message);
+                            dbContext.Db.RollbackTran();
+                            Logger.Info(DateTime.Now.ToLongTimeString() + "事务回滚");
+                        }
+                        finally
+                        {
+                            Logger.Info(DateTime.Now.ToLongTimeString() + "销售退货单同步任务完成");
+                        }
+                    }
+                    else
+                    {
+                        Logger.Info(DateTime.Now.ToLongTimeString() + "没有需要保存的数据!");
+                    }
                 }
                 else
                 {
@@ -297,13 +402,14 @@ namespace SleckEc2KdInterface.BLL
                 Logger.Info(DateTime.Now.ToLongTimeString() + "开始转换并保存获取到的销售出库单数据...");
                 T_Sale_StockOutInfo stockInfo;
                 T_Sale_StockOutItem stockItem;
-                List<T_Sale_StockOutInfo> stockInfos = new List<T_Sale_StockOutInfo>();
-                List<T_Sale_StockOutItem> stockItems = new List<T_Sale_StockOutItem>();
+              
                 int rec = int.Parse(obj["total_count"].ToString());
-                if (rec > 0)
+              //  Logger.Info(DateTime.Now.ToLongTimeString() + obj.ToString());
+                if (rec >= 0)
                 {
                   //  PropertyInfo[] propertyInfos = ForeachClassProperties<T_Sale_StockOutInfo>();
                     JArray arrRec = JArray.Parse(obj["stockout_list"].ToString());
+                    Logger.Info(DateTime.Now.ToLongTimeString() + "该页记录数为:"+ arrRec.Count.ToString());
                     for (int r = 0; r < arrRec.Count; r++)
                     {
                         JObject tempo = arrRec[r] as JObject;
@@ -366,42 +472,17 @@ namespace SleckEc2KdInterface.BLL
                     }
                 }
 
-                if (stockInfos.Count > 0)
-                {
-                    Logger.Info(DateTime.Now.ToLongTimeString() + "开启事务，保存数据...");
-                    dbContext.Db.BeginTran();//开启事务
-                    bool flag1 = dbContext.SaleStockOutInfoDb.InsertRange(stockInfos.ToArray());
-                    bool flag2 = dbContext.SaleStockOutItemDb.InsertRange(stockItems.ToArray());
-                    if (flag1 & flag2)
-                    {
-                        dbContext.Db.CommitTran();
-                        Logger.Info(DateTime.Now.ToLongTimeString() + "保存成功，提交事务，共同步单据数：" + insertrec.ToString());
-                    }
-                    else
-                    {
-                        dbContext.Db.RollbackTran();
-                        Logger.Info(DateTime.Now.ToLongTimeString() + "保存数据失败,事务回滚");
-                    }
-                }
-                else
-                {
-                    Logger.Info(DateTime.Now.ToLongTimeString() + "没有需要保存的数据!");
-                }
+            
 
             }
             catch (Exception er)
             {
 
                 Logger.Info(DateTime.Now.ToLongTimeString() + "运行错误:" + er.Message);
-                dbContext.Db.RollbackTran();
-                Logger.Info(DateTime.Now.ToLongTimeString() + "事务回滚");
+               
 
             }
-            finally
-            {
-                Logger.Info(DateTime.Now.ToLongTimeString() + "销售出库单同步任务完成");
-            }
-
+          
         }
 
 
@@ -420,10 +501,9 @@ namespace SleckEc2KdInterface.BLL
 
                 T_Sale_ReturnStockInfo returnInfo;
                 T_Sale_ReturnStockItem returnItem;
-                List<T_Sale_ReturnStockInfo> returnInfos = new List<T_Sale_ReturnStockInfo>();
-                List<T_Sale_ReturnStockItem> returnItems = new List<T_Sale_ReturnStockItem>();
+              
                 int rec = int.Parse(obj["total_count"].ToString());
-                if (rec > 0)
+                if (rec >= 0)
                 {
                     PropertyInfo[] propertyInfos = ForeachClassProperties<T_Sale_StockOutInfo>();
                     JArray arrRec = JArray.Parse(obj["stockin_list"].ToString());
@@ -488,41 +568,17 @@ namespace SleckEc2KdInterface.BLL
                     }
                 }
 
-                if (returnInfos.Count > 0)
-                {
-                    Logger.Info(DateTime.Now.ToLongTimeString() + "开启事务，保存数据...");
-                    dbContext.Db.BeginTran();//开启事务
-                    bool flag1 = dbContext.SaleReturnStockInfoDb.InsertRange(returnInfos.ToArray());
-                    bool flag2 = dbContext.SaleReturnStockItemDb.InsertRange(returnItems.ToArray());
-                    if (flag1 & flag2)
-                    {
-                        dbContext.Db.CommitTran();
-                        Logger.Info(DateTime.Now.ToLongTimeString() + "保存成功，提交事务，共同步单据数：" + insertrec.ToString());
-                    }
-                    else
-                    {
-                        dbContext.Db.RollbackTran();
-                        Logger.Info(DateTime.Now.ToLongTimeString() + "保存数据失败,事务回滚");
-                    }
-                }
-                else
-                {
-                    Logger.Info(DateTime.Now.ToLongTimeString() + "没有需要保存的数据!");
-                }
+               
 
             }
             catch (Exception er)
             {
 
                 Logger.Info(DateTime.Now.ToLongTimeString() + "运行错误:" + er.Message);
-                dbContext.Db.RollbackTran();
-                Logger.Info(DateTime.Now.ToLongTimeString() + "事务回滚");
+             
 
             }
-            finally
-            {
-                Logger.Info(DateTime.Now.ToLongTimeString() + "销售退货单同步任务完成");
-            }
+          
 
         }
 

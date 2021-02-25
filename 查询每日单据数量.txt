@@ -1,0 +1,5 @@
+select convert(nvarchar(10),consign_time,10),COUNT(order_no) from dbo.wdtstockout  group by  convert(nvarchar(10),consign_time,10) order by convert(nvarchar(10),consign_time,10)
+
+
+SELECT convert(nvarchar(10),consign_time,120),COUNT(order_no)
+  FROM [ECData].[dbo].[T_Sale_StockOutInfo]  group by convert(nvarchar(10),consign_time,120) order by convert(nvarchar(10),consign_time,120)
