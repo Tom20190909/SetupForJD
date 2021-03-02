@@ -30,14 +30,18 @@ namespace SleckEc2KdInterface.SERVICE
                                                 .StoreDurably(true)
                                                 .Build();
 
-
             var trigger = TriggerBuilder.Create()
-                                                .StartAt(DateTimeOffset.Now.AddSeconds(1))//开始执行时间
-                                                .EndAt(DateTimeOffset.Now.AddDays(1500))//执行结束时间
-                                                .WithSimpleSchedule(x => x
-                                                                        .WithIntervalInMinutes(int.Parse(Q_Interval))//30分钟钟执行一次
-                                                                        .RepeatForever()//重复执行
-                                                                        .Build()).Build();
+                                                   .StartAt(DateTimeOffset.Now.AddSeconds(1))//开始执行时间
+                                                   .EndAt(DateTimeOffset.Now.AddDays(1500))//执行结束时间
+                                                   .WithCronSchedule("00 00 23 * * ?").Build();//每天23:00:00分执行
+
+            //var trigger = TriggerBuilder.Create()
+            //                                    .StartAt(DateTimeOffset.Now.AddSeconds(1))//开始执行时间
+            //                                    .EndAt(DateTimeOffset.Now.AddDays(1500))//执行结束时间
+            //                                    .WithSimpleSchedule(x => x
+            //                                                            .WithIntervalInMinutes(int.Parse(Q_Interval))//30分钟钟执行一次
+            //                                                            .RepeatForever()//重复执行
+            //                                                            .Build()).Build();
 
 
 

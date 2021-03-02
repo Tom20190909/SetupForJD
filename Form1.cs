@@ -334,6 +334,11 @@ group by goods_no,gift_type;", item["shop_no"].ToString(), Convert.ToDateTime(it
 
             }
         }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            dbContext.Db.DbFirst.Where("T_Sale_ReturnStockInfo").CreateClassFile("d:\\", "SleckEc2KdInterface");
+        }
     }
 
 }
