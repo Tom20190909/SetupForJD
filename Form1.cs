@@ -14,7 +14,7 @@ namespace SleckEc2KdInterface
     public partial class Form1 : Form
     {
         DbContext dbContext = new DbContext(false);
-
+        DbContext dbContexttb = new DbContext(true);
         public Form1()
         {
             InitializeComponent();
@@ -337,7 +337,8 @@ group by goods_no,gift_type;", item["shop_no"].ToString(), Convert.ToDateTime(it
 
         private void button2_Click(object sender, EventArgs e)
         {
-            dbContext.Db.DbFirst.Where("T_Sale_ReturnStockInfo").CreateClassFile("d:\\", "SleckEc2KdInterface");
+            dbContexttb.TBDb.DbFirst.Where("wdtthdetailslist").CreateClassFile("d:\\", "SleckEc2KdInterface");
+            dbContexttb.TBDb.DbFirst.Where("wdtthstockin").CreateClassFile("d:\\", "SleckEc2KdInterface");
         }
     }
 

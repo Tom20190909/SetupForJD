@@ -63,8 +63,10 @@ namespace SleckEc2KdInterface.DAL
 
         public DbSet<detailslist> detailslistTBDb { get { return new DbSet<detailslist>(TBDb); } }
         public DbSet<wdtstockout> wdtstockoutTBDb { get { return new DbSet<wdtstockout>(TBDb); } }
-        public DbSet<wdtthOrder> wdtthOrderTBDb { get { return new DbSet<wdtthOrder>(TBDb); } }
-        public DbSet<wdtthOrderinfo> wdtthOrderinfoTBDb { get { return new DbSet<wdtthOrderinfo>(TBDb); } }
-
+      //  public DbSet<wdtthOrder> wdtthOrderTBDb { get { return new DbSet<wdtthOrder>(TBDb); } }
+      //  public DbSet<wdtthOrderinfo> wdtthOrderinfoTBDb { get { return new DbSet<wdtthOrderinfo>(TBDb); } }
+        public DbSet<wdtthstockin> wdtthOrderTBDb { get { return new DbSet<wdtthstockin>(TBDb); } }
+        public DbSet<wdtthdetailslist> wdtthOrderinfoTBDb { get { return new DbSet<wdtthdetailslist>(TBDb); } }
+       
     }
 }

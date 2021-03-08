@@ -53,11 +53,12 @@ namespace SleckEc2KdInterface.BLL
 
             if (maxRec != null)
             {
-                starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+              //  starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+                starttime = DateTime.Parse("2021-01-27 00:00:00").ToString("yyyy-MM-dd HH:mm:ss");
             }
+                endtime = DateTime.Parse("2021-01-28 00:00:00").ToString("yyyy-MM-dd HH:mm:ss");
 
-
-            endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(1).ToString("yyyy-MM-dd HH:mm:ss");
+            //   endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
 
             Logger.Info(DateTime.Now.ToLongTimeString() + "开始获取旺店通采购入库单数据时间范围:" + starttime + "--" + endtime);
             Dictionary<string, string> dt = new Dictionary<string, string>();
@@ -775,7 +776,7 @@ namespace SleckEc2KdInterface.BLL
             endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
             Logger.Info(DateTime.Now.ToLongTimeString() + "开始获取奇门销售退货单数据时间范围:" + starttime + "--" + endtime);
             // && h.Status == ConfigurationManager.AppSettings["saleoutbillstatustb"].ToString()
-            List<wdtthOrder> orderlst = dbContextTB.wdtthOrderTBDb.GetList(h => SqlFunc.Between(h.Refund_Time, starttime, endtime) && h.Shop_No == "TM01");
+            List<wdtthstockin> orderlst = dbContextTB.wdtthOrderTBDb.GetList(h => SqlFunc.Between(h.check_time, starttime, endtime) && h.warehouse_no == "TMCK01");
 
             if (orderlst.Count > 0)
             {
@@ -788,7 +789,7 @@ namespace SleckEc2KdInterface.BLL
             }
         }
 
-        private void ConvertSaleReturnTB(List<wdtthOrder> orders)
+        private void ConvertSaleReturnTB(List<wdtthstockin> orders)
         {
 
             int insertrec = 0;
@@ -799,10 +800,10 @@ namespace SleckEc2KdInterface.BLL
                 T_Sale_ReturnStockItem stockItem;
                 List<T_Sale_ReturnStockInfo> stockInfos = new List<T_Sale_ReturnStockInfo>();
                 List<T_Sale_ReturnStockItem> stockItems = new List<T_Sale_ReturnStockItem>();
-                List<wdtthOrder> wdtthorders = new List<wdtthOrder>();
-                List<wdtthOrderinfo> wdtthorderinfos = new List<wdtthOrderinfo>();
-                wdtthOrderinfo wdtthorderinfo = new wdtthOrderinfo();
-                wdtthOrder wdtthorder = new wdtthOrder();
+                List<wdtthstockin> wdtthorders = new List<wdtthstockin>();
+                List<wdtthdetailslist> wdtthorderinfos = new List<wdtthdetailslist>();
+                wdtthdetailslist wdtthorderinfo = new wdtthdetailslist();
+                wdtthstockin wdtthorder = new wdtthstockin();
                 string tboutstr2num = ConfigurationManager.AppSettings["tboutstr"].ToString();
                 int rec = orders.Count;
                 if (rec > 0)
@@ -812,110 +813,69 @@ namespace SleckEc2KdInterface.BLL
                     {
                         wdtthorder = orders[r];
 
-                        if (dbContext.SaleReturnStockInfoDb.GetSingle(h => h.Order_No == wdtthorder.Refund_No) is null)
+                        if (dbContext.SaleReturnStockInfoDb.GetSingle(h => h.Order_No == wdtthorder.order_no) is null)
                         {
                             stockInfo = new T_Sale_ReturnStockInfo();
-                          
+                            PropertyInfo[] PropertyList = stockInfo.GetType().GetProperties();
+                            foreach (PropertyInfo item in PropertyList)
+                            {
 
-                            stockInfo.Order_No = wdtthorder.Refund_No; //单号
-                            stockInfo.Warehouse_No = wdtthorder.Warehouse_No; //仓库编号
-                            stockInfo.Warehouse_Id = wdtthorder.Warehouse_Id == null ? "0" : wdtthorder.Warehouse_Id;//仓库ID
-                            stockInfo.Shop_No = wdtthorder.Shop_No;//店铺编号
-                            stockInfo.Shop_Name = wdtthorder.Shop_Name; //店铺名称
-                            stockInfo.Shop_Remark = "";
-                            stockInfo.Src_Order_No= wdtthorder.Src_No; //上层单号
-                            stockInfo.Process_Status = wdtthorder.Process_Status; //退换单状态
-                            stockInfo.Trade_No = wdtthorder.Sales_Tid; //订单编号
-                            stockInfo.Trade_Type = "网店销售"; //系统订单类别
-                            stockInfo.Order_Type = wdtthorder.From_Type; ////单据类别
-                            stockInfo.Order_Type_Name = "退换单"; //单据类别名称
-                            stockInfo.Goods_Count = wdtthorder.Return_Goods_Count; //货品数量
-                            stockInfo.Goods_Amount = wdtthorder.Goods_Amount; //货款金额
-                            stockInfo.Actual_Refund_Amount = wdtthorder.Actual_Refund_Amount; //实际退款金额
-                            stockInfo.Total_Price = "0"; //退回货品成本
-                            stockInfo.Discount = "0"; //优惠金额
-                            stockInfo.Tax_Amount = wdtthorder.Goods_Amount; //折后金额
-                            stockInfo.Post_Fee = wdtthorder.Post_Amount; //邮费
-                            stockInfo.Other_Fee = wdtthorder.Other_Amount;//其他费用
-                            stockInfo.Adjust_Price= "0"; //纠错金额
-                            stockInfo.Right_Price = wdtthorder.Goods_Amount; //调整后总金额
-                            stockInfo.Logistics_Type = wdtthorder.Swap_Logistics_Type; //物流类型
-                            stockInfo.Logistics_No = ""; //物流编号
-                            stockInfo.Logistics_Code = wdtthorder.Logistics_No; //物流单号
-                            stockInfo.Logistics_Name = wdtthorder.Logistics_Name; //物流名称
-                            stockInfo.Refund_No = wdtthorder.Refund_No; //退换单号
-                            stockInfo.Check_Time = wdtthorder.Refund_Time == null ? DateTime.Parse("1970-01-01 00:00:00") : Convert.ToDateTime(wdtthorder.Refund_Time);//审核时间
-                            stockInfo.Customer_No = wdtthorder.Customer_No;//客户编码
-                            stockInfo.Customer_Name = wdtthorder.Customer_Name; //客户名称
-                            stockInfo.Nick_Name = ""; //客户网名
-                            stockInfo.Stockin_Reason = wdtthorder.Refund_Reason; //原因
-                            stockInfo.Tid = wdtthorder.Tid; //订单原始单号
-                            stockInfo.Platform_Id = wdtthorder.Platform_Id; //平台ID
-                            stockInfo.Check_Operator_Name = wdtthorder.Creator_Name; //审核人
-                            stockInfo.Refund_Operator_Name = wdtthorder.Creator_Name; //退货人
-                            stockInfo.Wms_Outer_No = stockInfo.Wms_Outer_No; //外部仓库单号
-                            stockInfo.Wms_Result = wdtthorder.Wms_Result; //结果
-                            stockInfo.Src_Order_Id = wdtthorder.Refund_Id; //业务单据id
-                            stockInfo.Reason_Id = wdtthorder.Reason_Id;//原因id
-                            stockInfo.Src_Order_Type = "0";//订单类型 
-                            stockInfo.Fa_Status = "0"; //财务同步状态
-                            stockInfo.Post_Share_Type = "0"; //邮费分摊类型
-                            stockInfo.Adjust_Num = "0"; //调整数量
-                            stockInfo.Note_Count = "0"; //便签数量
-                            stockInfo.Flag_Id = "0"; //标记id
-                            stockInfo.Remark = wdtthorder.Remark; //备注
+                                string value = JObject.Parse(wdtthorder.ToJsonString())[item.Name.ToLower()].ToString();
+                                //if (tboutstr2num.Contains(item.Name) && value == "")
+                                //{
+                                //    value = "0";
+                                //}
+                                if (item.PropertyType == typeof(System.DateTime))
+                                {
+                                    item.SetValue(stockInfo, DateTime.Parse(value.Replace("0000-00-00 00:00:00", "1970-01-01 00:00:00")));
+                                }
+                                else
+                                {
+                                    item.SetValue(stockInfo, value);
+                                }
+                            }
 
-                            Logger.Info(DateTime.Now.ToLongTimeString() + $"将销售退货单{wdtthorder.Outer_No}添加到待插入列表");
+                            Logger.Info(DateTime.Now.ToLongTimeString() + $"将奇门销售退货单{wdtthorder.order_no}添加到待插入列表");
 
                             stockInfos.Add(stockInfo);
                             //查询主表对应明细
-                            wdtthorderinfos = dbContextTB.wdtthOrderinfoTBDb.GetList(d => d.Refund_Id == wdtthorder.Refund_Id);
+                            wdtthorderinfos = dbContextTB.wdtthOrderinfoTBDb.GetList(d => d.src_order_detail_id== wdtthorder.src_order_id);
                             for (int d = 0; d < wdtthorderinfos.Count; d++)
                             {
                                 stockItem = new T_Sale_ReturnStockItem();
-                                //将对应明细数据赋值给stockItem对象
                                 wdtthorderinfo = wdtthorderinfos[d];
-                              
+                                PropertyInfo[] ProDetailList = stockItem.GetType().GetProperties();
+                                foreach (PropertyInfo detail in ProDetailList)
+                                {
+
+                                    object value;
+                                    if (detail.Name != "Order_No")
+                                    {
+
+                                        if (detail.Name != "Expire_Date")
+                                        {
+                                            value = JObject.Parse(wdtthorderinfo.ToJsonString())[detail.Name.ToLower()].ToString();
+                                        }
+                                        else
+                                        {
+                                            value = "1970-01-01 00:00:00";
+                                        }
+                                        if (detail.PropertyType == typeof(System.DateTime))
+                                        {
+                                            detail.SetValue(stockItem, DateTime.Parse(value.ToString().Replace("0000-00-00 00:00:00", "1970-01-01 00:00:00")));
+                                        }
+                                        else
+                                        {
+
+                                            detail.SetValue(stockItem, value);
+
+                                        }
+                                    }
+                                   
+
+                                }
+
                                 stockItem.Order_No = stockInfo.Order_No;
-                                stockItem.Goods_No = wdtthorderinfo.Goods_No; //货品编号
-                                stockItem.Src_Order_Detail_Id = wdtthorderinfo.Order_Id;
-                                stockItem.Spec_No = wdtthorderinfo.Spec_No; //商家编码
-                                stockItem.Spec_Id = wdtthorderinfo.Spec_Id==null?"0": wdtthorderinfo.Spec_Id; //erp商品主键
-                                stockItem.Spec_Code = wdtthorderinfo.Spec_Code; ////商家单号
-                                stockItem.Spec_Name = wdtthorderinfo.Spec_Name; //商家名称
-                                stockItem.Goods_Count = wdtthorderinfo.Refund_Num; //货品数量
-                                stockItem.Discount = wdtthorderinfo.Discount; //优惠金额
-                                stockItem.Cost_Price = wdtthorderinfo.Cost_Price;//成本价
-                                stockItem.Production_Date = DateTime.Parse("1970-01-01 00:00:00"); //生产日期
-                                stockItem.Validity_Days ="0"; //有效期天数
-                                stockItem.Expire_Date = DateTime.Parse("1970-01-01 00:00:00"); //有效期
-                                stockItem.Src_Price = wdtthorderinfo.Price; //原价
-                                stockItem.Tax_Price = wdtthorderinfo.Cost_Price;//税后单价
-                                stockItem.Tax_Amount = wdtthorderinfo.Stockin_Amount; //税后金额
-                                stockItem.Tax = "0"; //税率
-                                stockItem.Total_Cost = wdtthorderinfo.Stockin_Amount; //总成本
-                                stockItem.Adjust_Num = "0"; //纠正数量
-                                stockItem.Adjust_Price = "0"; //纠正金额
-                                stockItem.Right_Num = wdtthorderinfo.Refund_Num; //调整后数量
-                                stockItem.Right_Price = (decimal.Parse(wdtthorderinfo.Cost_Price)/ decimal.Parse(wdtthorderinfo.Refund_Num)).ToString(); //调整后单价
-                                stockItem.Num = wdtthorderinfo.Refund_Num;//入库数量
-                                stockItem.Num2 = wdtthorderinfo.Refund_Num;//辅助数量
-                                stockItem.Right_Cost=wdtthorderinfo.Cost_Price;//调整后总金额
-                                stockItem.Position_Id = wdtthorderinfo.Position_Id == null ? "0" : wdtthorderinfo.Position_Id; //货位ID
-                                stockItem.Position_No = wdtthorderinfo.Position_No; //货位编号
-                                stockItem.Tid = wdtthorderinfo.Tid; //原订单原始单号
-                                stockItem.Oid = wdtthorderinfo.Oid; //原订单原始子单号
-                                stockItem.Src_Order_Type = "3";//订单类型
-                                stockItem.Cost_Price2= wdtthorderinfo.Cost_Price;//辅助价格
-                                stockItem.Org_Stockin_Detail_Id = "0"; //原始入库单明细
-                                stockItem.Batch_Id = "0"; //批次
-                                stockItem.Unit_Id = "0"; //单位id
-                                stockItem.Base_Unit_Id = "0"; //基本单位id
-                                stockItem.Unit_Ratio = "0"; //单位比率
-                                stockItem.Expect_Num = "0"; //期望数量
-                                stockItem.Share_Post_Cost = "0"; //邮资分摊成本
-                                stockItem.Share_Post_Total = "0"; //邮资分摊总成本
-                                stockItem.Remark = wdtthorderinfo.Remark; //备注
                                 stockItems.Add(stockItem);
 
                             }
@@ -924,7 +884,7 @@ namespace SleckEc2KdInterface.BLL
                         }
                         else
                         {
-                            Logger.Info(DateTime.Now.ToLongTimeString() + $"奇门销售退货单{wdtthorder.Refund_No}已存在");
+                            Logger.Info(DateTime.Now.ToLongTimeString() + $"奇门销售退货单{wdtthorder.order_no}已存在");
                             continue;
                         }
                     }
