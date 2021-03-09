@@ -839,7 +839,7 @@ namespace SleckEc2KdInterface.BLL
 
                             stockInfos.Add(stockInfo);
                             //查询主表对应明细
-                            wdtthorderinfos = dbContextTB.wdtthOrderinfoTBDb.GetList(d => d.src_order_detail_id== wdtthorder.src_order_id);
+                            wdtthorderinfos = dbContextTB.wdtthOrderinfoTBDb.GetList(d => d.stockin_id== wdtthorder.stockin_id);
                             for (int d = 0; d < wdtthorderinfos.Count; d++)
                             {
                                 stockItem = new T_Sale_ReturnStockItem();
