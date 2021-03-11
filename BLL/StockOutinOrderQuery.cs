@@ -768,15 +768,15 @@ namespace SleckEc2KdInterface.BLL
             StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select starttime from vwe_salereturnmaxtimefor_qmapi").First();
             if (maxRec != null)
             {
-                starttime = maxRec.starttime.ToString("yyyy-MM-dd HH:mm:ss");
-                //starttime = DateTime.Parse("2021-02-16 00:00:01").ToString("yyyy-MM-dd HH:mm:ss");
+               // starttime = maxRec.starttime.ToString("yyyy-MM-dd HH:mm:ss");
+                starttime = DateTime.Parse("2021-02-16 00:00:01").ToString("yyyy-MM-dd HH:mm:ss");
             }
 
           // endtime = "2021-02-28 23:59:59";
             endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
             Logger.Info(DateTime.Now.ToLongTimeString() + "开始获取奇门销售退货单数据时间范围:" + starttime + "--" + endtime);
             // && h.Status == ConfigurationManager.AppSettings["saleoutbillstatustb"].ToString()
-            List<wdtthstockin> orderlst = dbContextTB.wdtthOrderTBDb.GetList(h => SqlFunc.Between(h.check_time, starttime, endtime) && h.warehouse_no == "TMCK01");
+            List<wdtthstockin> orderlst = dbContextTB.wdtthOrderTBDb.GetList(h => SqlFunc.Between(h.check_time, starttime, endtime) && (h.warehouse_no == "TMCK01" || h.warehouse_no == "TMCK02"  ));
 
             if (orderlst.Count > 0)
             {
