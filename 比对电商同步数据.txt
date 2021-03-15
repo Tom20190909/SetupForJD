@@ -1,0 +1,47 @@
+
+select convert(nvarchar(10),consign_time,10),COUNT(order_no) from dbo.wdtstockout
+where  convert(nvarchar(10),consign_time,10)>'2021-03-05' 
+group by  convert(nvarchar(10),consign_time,10) order by convert(nvarchar(10),consign_time,10)
+
+SELECT convert(nvarchar(10),consign_time,120),COUNT(order_no)
+  FROM [172.28.18.96].ecdata.dbo.T_Sale_StockOutInfo
+where  convert(nvarchar(10),consign_time,120)>'2021-03-05'
+group by convert(nvarchar(10),consign_time,120) order by convert(nvarchar(10),consign_time,120)
+ 
+
+    
+   select order_no from dbo.wdtstockout
+where  convert(nvarchar(10),consign_time,10)='2021-03-06'
+and  order_no not in(
+
+SELECT order_no
+  FROM [172.28.18.96].ecdata.dbo.T_Sale_StockOutInfo   
+where  convert(nvarchar(10),consign_time,120)='2021-03-06'  )
+
+drop table #temp00
+
+SELECT order_no  into #temp00
+  FROM [172.28.18.96].ecdata.dbo.T_Sale_StockOutInfo 
+where  convert(nvarchar(10),consign_time,120)='2021-03-09' and order_no not in (
+   select order_no from dbo.wdtstockout
+where  convert(nvarchar(10),consign_time,10)='2021-03-09'
+
+ )
+ 
+ 
+ select * from dbo.wdtstockout where order_no not in (select order_no
+  FROM [172.28.18.96].ecdata.dbo.T_Sale_StockOutInfo where   convert(nvarchar(10),stock_check_time,120)='2021-02-26' AND  shop_no='DY01')
+and  convert(nvarchar(10),consign_time,120)='2021-02-26' and shop_no='DY01'
+
+
+
+--delete from wdtstockout where src_order_no in ('JY2021022515209','JY2021022514043')
+--delete from detailslist where  stockout_id in (select stockout_id from wdtstockout where src_order_no in ('JY2021022515209','JY2021022514043'))
+
+
+select *  from [172.28.18.96].ecdata.dbo.T_Sale_StockOutInfo where order_no='CK202103072461' or order_no='CK202103072488' or order_no='CK202103083711'
+
+delete  from [172.28.18.96].ecdata.dbo.T_Sale_StockOutInfo where   order_no in (select * from  #temp00)
+delete from [172.28.18.96].ecdata.dbo.T_Sale_StockOutItem where    order_no in (select * from  #temp00)
+
+

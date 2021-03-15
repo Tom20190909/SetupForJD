@@ -53,12 +53,12 @@ namespace SleckEc2KdInterface.BLL
 
             if (maxRec != null)
             {
-              //  starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
-                starttime = DateTime.Parse("2021-01-27 00:00:00").ToString("yyyy-MM-dd HH:mm:ss");
+                starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+              //  starttime = DateTime.Parse("2021-01-27 00:00:00").ToString("yyyy-MM-dd HH:mm:ss");
             }
-                endtime = DateTime.Parse("2021-01-28 00:00:00").ToString("yyyy-MM-dd HH:mm:ss");
+             //   endtime = DateTime.Parse("2021-01-28 00:00:00").ToString("yyyy-MM-dd HH:mm:ss");
 
-            //   endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
+             endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
 
             Logger.Info(DateTime.Now.ToLongTimeString() + "开始获取旺店通采购入库单数据时间范围:" + starttime + "--" + endtime);
             Dictionary<string, string> dt = new Dictionary<string, string>();
