@@ -17,15 +17,15 @@ namespace SleckEc2KdInterface.JOB
             await Task.Run(() =>
             {
                 //采购入库单
-                stockOutInOrderQuery.GetPurData();
-               // 销售出库单
-                stockOutInOrderQuery.GetSaleOutData();
-                ////销售退货单
-                stockOutInOrderQuery.GetSaleReturnData();
+               stockOutInOrderQuery.GetPurData();
+               //// 销售出库单
+               stockOutInOrderQuery.GetSaleOutData();
+               // ////销售退货单
+               stockOutInOrderQuery.GetSaleReturnData();
                 ////奇门销售出库单
-                stockOutInOrderQuery.GetTBSaleOutData();
+               stockOutInOrderQuery.GetTBSaleOutData();
                 ////奇门销售退货单
-                stockOutInOrderQuery.GetTBSaleReturnData();
+               stockOutInOrderQuery.GetTBSaleReturnData();
 
             });
         }

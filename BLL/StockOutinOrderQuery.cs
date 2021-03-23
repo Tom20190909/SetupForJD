@@ -100,19 +100,19 @@ namespace SleckEc2KdInterface.BLL
             if (maxRec != null)
             {
                  starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
-               // starttime = DateTime.Parse("2021-02-25 00:00:00").ToString("yyyy-MM-dd HH:mm:ss");
+             //  starttime = DateTime.Parse("2021-03-08 00:00:00").ToString("yyyy-MM-dd HH:mm:ss");
             }
 
-           // endtime = DateTime.Parse("2021-02-25 23:54:00").ToString("yyyy-MM-dd HH:mm:ss");
+           // endtime = DateTime.Parse("2021-03-08 23:59:59").ToString("yyyy-MM-dd HH:mm:ss");
 
 
-              endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
+             endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
 
             Logger.Info(DateTime.Now.ToLongTimeString() + "开始获取旺店通销售出库单数据时间范围:" + starttime + "--" + endtime);
             Dictionary<string, string> dt = new Dictionary<string, string>();
             dt.Add("start_time", starttime);
             dt.Add("end_time", endtime);
-        //    dt.Add("shop_no", ConfigurationManager.AppSettings["shop_no"].ToString());
+          //  dt.Add("shop_no", "KS01");
           //  dt.Add("status","110");
             JObject resultobj = JObject.Parse(GetWdtDataBLL.GetDataFromApi(dt, "stockout_order_query_trade.php"));
           //  Logger.Info(resultobj.ToString());
@@ -131,6 +131,7 @@ namespace SleckEc2KdInterface.BLL
                         dt = new Dictionary<string, string>();
                         dt.Add("start_time", starttime);
                         dt.Add("end_time", endtime);
+                      //  dt.Add("shop_no", "KS01");
                         dt.Add("page_size","40");
                         dt.Add("page_no",i.ToString());
                        // dt.Add("status", ConfigurationManager.AppSettings["saleoutbillstatus"].ToString());
@@ -140,7 +141,7 @@ namespace SleckEc2KdInterface.BLL
                         //    Logger.Info(resultobj.ToString());
                         //}
                         ConvertSale(resultobj);
-                        Logger.Info(DateTime.Now.ToLongTimeString() + $"保存转换第{i + 1}页销售出库单数据完成");
+                        Logger.Info(DateTime.Now.ToLongTimeString() + $"保存转换第{i + 1}/{pagetotal}页销售出库单数据完成");
                     }
                    
                    
@@ -598,14 +599,15 @@ namespace SleckEc2KdInterface.BLL
             
             if (maxRec != null)
             {
-                  starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
-               // starttime = DateTime.Parse("2021-02-27 10:00:48").ToString("yyyy-MM-dd HH:mm:ss");
+                 starttime = DateTime.Parse(maxRec.starttime.ToString()).ToString("yyyy-MM-dd HH:mm:ss");
+              //  starttime = DateTime.Parse("2021-03-05 00:00:00").ToString("yyyy-MM-dd HH:mm:ss");
             }
-          //  endtime = DateTime.Parse("2021-02-27 10:00:49").ToString("yyyy-MM-dd HH:mm:ss");
-            endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
-            string[] shops = new string[] { "TM01", "002" };
+           // endtime = DateTime.Parse("2021-03-05 23:59:59").ToString("yyyy-MM-dd HH:mm:ss");
+           endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
+            string[] shops = new string[] { "TM01" ,"002"};
             Logger.Info(DateTime.Now.ToLongTimeString() + "开始获取奇门销售出库单数据时间范围:" + starttime + "--" + endtime);
-            List<wdtstockout> orderlst = dbContextTB.wdtstockoutTBDb.GetList(h => SqlFunc.Between(h.Consign_Time, starttime, endtime) && (h.Status == "95" || h.Status == "110" || h.Status == "105") && shops.Contains(h.Shop_No)) ;
+            List<wdtstockout> orderlst = dbContextTB.wdtstockoutTBDb.GetList(h => SqlFunc.Between(h.Consign_Time, starttime, endtime) && (h.Status == "95" || h.Status == "110" || h.Status == "105" || h.Status == "113") && shops.Contains(h.Shop_No)) ;
+          //  List<wdtstockout> orderlst = dbContextTB.wdtstockoutTBDb.GetList(h => SqlFunc.Between(h.Consign_Time, starttime, endtime) && (h.Status == "113") && shops.Contains(h.Shop_No));
 
             if (orderlst.Count>0)
             {
