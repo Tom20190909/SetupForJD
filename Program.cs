@@ -13,31 +13,18 @@ namespace SleckEc2KdInterface
 
     static class Program
     {
-        private static ILog Logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        //  private static ILog Logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        [STAThread]
         static void Main()
         {
             try
             {
-                HostFactory.Run(o =>
-                {
+               
 
-                    o.Service<EcServiceControl>();
-
-                    o.RunAsLocalSystem();
-
-                    o.SetServiceName("AutoGetECData");
-
-                    o.SetDisplayName("自动获取旺店通数据及转存至金蝶云");
-
-                    o.SetDescription("自动获取旺店通数据及转存至金蝶云");
-
-                });
-
-                //Application.EnableVisualStyles();
-                //Application.SetCompatibleTextRenderingDefault(false);
-                ////  Application.Run(new calendar());
-                //Application.Run(new Form1());
+                Application.EnableVisualStyles();
+                Application.SetCompatibleTextRenderingDefault(false);
+               
+                Application.Run(new Form2());
             }
             catch(Exception ex)
             {

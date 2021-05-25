@@ -66,7 +66,7 @@
             this.dataGridView6.RowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dataGridView6.RowTemplate.Height = 23;
             this.dataGridView6.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView6.Size = new System.Drawing.Size(592, 415);
+            this.dataGridView6.Size = new System.Drawing.Size(603, 415);
             this.dataGridView6.TabIndex = 227;
             this.dataGridView6.RowEnter += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView6_RowEnter);
             // 
@@ -120,7 +120,7 @@
             this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle2;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(592, 156);
+            this.dataGridView1.Size = new System.Drawing.Size(603, 156);
             this.dataGridView1.TabIndex = 231;
             // 
             // label2
@@ -154,7 +154,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1118, 641);
+            this.ClientSize = new System.Drawing.Size(1129, 641);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.richTextBox1);
             this.Controls.Add(this.label2);

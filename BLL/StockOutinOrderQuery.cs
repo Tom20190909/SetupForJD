@@ -770,8 +770,8 @@ namespace SleckEc2KdInterface.BLL
             StartDateTime maxRec = dbContext.Db.SqlQueryable<StartDateTime>("select starttime from vwe_salereturnmaxtimefor_qmapi").First();
             if (maxRec != null)
             {
-               // starttime = maxRec.starttime.ToString("yyyy-MM-dd HH:mm:ss");
-                starttime = DateTime.Parse("2021-02-16 00:00:01").ToString("yyyy-MM-dd HH:mm:ss");
+                starttime = maxRec.starttime.ToString("yyyy-MM-dd HH:mm:ss");
+              //  starttime = DateTime.Parse("2021-02-16 00:00:01").ToString("yyyy-MM-dd HH:mm:ss");
             }
 
           // endtime = "2021-02-28 23:59:59";
