@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-namespace SleckEc2KdInterface.Entity 
- { 
- public class detailslist
+
+namespace SleckEc2KdInterface.Entity
+{
+public class detailslist
 {
 string  _SFlag1=string.Empty;
  /// <summary>

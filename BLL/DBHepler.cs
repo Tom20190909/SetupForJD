@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Data;
 using System.Data.SqlClient;
-using System.IO;
-using System.Security.Cryptography;
+
 using System.Text;
 using System.Configuration;
 
@@ -30,7 +28,9 @@ namespace SleckWDTInterface.JOB
                 command.CommandText = SqlString;
                 int Row = command.ExecuteNonQuery();
                 if (Row <= 0)
+                {
                     message = "";
+                }
 
                 transaction.Commit();
             }
@@ -57,7 +57,7 @@ namespace SleckWDTInterface.JOB
                 {
                     connection.Open();
                     object objA = command.ExecuteScalar();
-                    if (object.Equals(objA, null) || object.Equals(objA, DBNull.Value))
+                    if (Equals(objA, null) || Equals(objA, DBNull.Value))
                     {
                         connection.Close();
                         return null;
@@ -132,7 +132,9 @@ namespace SleckWDTInterface.JOB
                 command.CommandText = SqlString;
                 int Row = command.ExecuteNonQuery();
                 if (Row <= 0)
+                {
                     message = "";
+                }
 
                 transaction.Commit();
             }
@@ -163,7 +165,7 @@ namespace SleckWDTInterface.JOB
                     if (str.Length > 0)
                     {
                         command.CommandText = str;
-                        command.ExecuteNonQuery();
+                        _ = command.ExecuteNonQuery();
                     }
                 }
                 transaction.Commit();
@@ -192,7 +194,7 @@ namespace SleckWDTInterface.JOB
             {
                 PrepareCommand(cmd, Connection, null, SQLString, cmdParms);
                 cmd.CommandText = SQLString;
-                cmd.ExecuteNonQuery();
+                _ = cmd.ExecuteNonQuery();
                 transaction.Commit();
             }
             catch
@@ -211,19 +213,8 @@ namespace SleckWDTInterface.JOB
         {
             int num;
             object single = GetSingle(strSql);
-            if (object.Equals(single, null) || object.Equals(single, DBNull.Value))
-            {
-                num = 0;
-            }
-            else
-            {
-                num = int.Parse(single.ToString());
-            }
-            if (num == 0)
-            {
-                return false;
-            }
-            return true;
+            num = Equals(single, null) || Equals(single, DBNull.Value) ? 0 : int.Parse(single.ToString());
+            return num != 0;
         }
 
         public static bool Exists(string strSql, params SqlParameter[] cmdParms)
@@ -280,6 +271,42 @@ namespace SleckWDTInterface.JOB
                 }
             }
             return set2;
+        }
+
+        public static DataTable GetDataforStoredProcedure(string SqlString)
+        {
+            DataSet set2;
+            using (SqlConnection connection = new SqlConnection(ConnectionString))
+            {
+                connection.Open();
+                SqlCommand cmd = new SqlCommand(SqlString);
+                cmd.CommandType = CommandType.StoredProcedure;                        //
+                                                                                      //   cmd.Parameters.AddRange(sqlParameter);
+                cmd.Parameters.Add("@F_SDate", SqlDbType.Date).Value = "2023-02-01";   //
+
+                cmd.Parameters.Add("@F_EDate", SqlDbType.Date).Value = "2023-03-10";    //
+                cmd.Parameters.AddWithValue("@F_APPROVETIMEDate", SqlDbType.DateTime).Value = "2023-02-01 00:00:00"; ;
+                cmd.Parameters.Add("@F_OutDate", SqlDbType.Date).Value = "2023-03-10";    //
+                cmd.Connection= connection;
+             
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                    {
+                        DataSet dataSet = new DataSet();
+                        try
+                        {
+                            adapter.Fill(dataSet, "ds");
+                           
+                        }
+                        catch (SqlException)
+                        {
+                          
+                        }
+                        connection.Close();
+                        set2 = dataSet;
+                    }
+               
+            }
+            return set2.Tables[0];
         }
 
         public static DataTable GetDataTable(string SqlString)

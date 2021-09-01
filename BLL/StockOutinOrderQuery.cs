@@ -19,7 +19,7 @@ namespace SleckEc2KdInterface.BLL
     {
         private static ILog Logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         static DbContext dbContext = new DbContext(false);
-        static DbContext dbContextTB = new DbContext(true);
+        static DbContext dbContextEc = new DbContext(true);
         List<T_Sale_StockOutInfo> stockInfos;
         List<T_Sale_StockOutItem> stockItems;
         List<T_Sale_ReturnStockInfo> returnInfos;
@@ -341,7 +341,7 @@ namespace SleckEc2KdInterface.BLL
                             PropertyInfo[] ProDetailList = purStockItem.GetType().GetProperties();
                             foreach (PropertyInfo detail in ProDetailList)
                             {
-                                if (detail.Name != "Order_No")
+                                if (detail.Name != "order_no")
                                 {
                                     if (detail.PropertyType == typeof(System.DateTime))
                                     {
@@ -433,15 +433,15 @@ namespace SleckEc2KdInterface.BLL
                                 item.SetValue(stockInfo, value);
                             }
                         }
-                        if (dbContext.SaleStockOutInfoDb.GetSingle(h => h.Order_No == stockInfo.Order_No) is null)
+                        if (dbContext.SaleStockOutInfoDb.GetSingle(h => h.order_no == stockInfo.order_no) is null)
                         {
-                            Logger.Info(DateTime.Now.ToLongTimeString() + $"将销售出库单{stockInfo.Order_No}添加到待插入列表");
+                            Logger.Info(DateTime.Now.ToLongTimeString() + $"将销售出库单{stockInfo.order_no}添加到待插入列表");
                             stockInfos.Add(stockInfo);
                             insertrec++;
                         }
                         else
                         {
-                            Logger.Info(DateTime.Now.ToLongTimeString() + $"销售出库单{stockInfo.Order_No}已存在");
+                            Logger.Info(DateTime.Now.ToLongTimeString() + $"销售出库单{stockInfo.order_no}已存在");
                             continue;
                         }
 
@@ -456,7 +456,7 @@ namespace SleckEc2KdInterface.BLL
                             PropertyInfo[] ProDetailList = stockItem.GetType().GetProperties();
                             foreach (PropertyInfo detail in ProDetailList)
                             {
-                                if (detail.Name != "Order_No")
+                                if (detail.Name != "order_no")
                                 {
                                     if (detail.PropertyType == typeof(System.DateTime))
                                     {
@@ -469,7 +469,7 @@ namespace SleckEc2KdInterface.BLL
                                 }
 
                             }
-                            stockItem.Order_No = stockInfo.Order_No;
+                            stockItem.order_no = stockInfo.order_no;
                             stockItems.Add(stockItem);
                         }
                     }
@@ -521,17 +521,17 @@ namespace SleckEc2KdInterface.BLL
                             else
                             {
                                 item.SetValue(returnInfo, value);
-                            }
+                            }   
                         }
-                        if (dbContext.SaleReturnStockInfoDb.GetSingle(h => h.Order_No == returnInfo.Order_No) is null)
+                        if (dbContext.SaleReturnStockInfoDb.GetSingle(h => h.order_no == returnInfo.order_no) is null)
                         {
-                            Logger.Info(DateTime.Now.ToLongTimeString() + $"将销售退货单{returnInfo.Order_No}添加到待插入列表");
+                            Logger.Info(DateTime.Now.ToLongTimeString() + $"将销售退货单{returnInfo.order_no}添加到待插入列表");
                             returnInfos.Add(returnInfo);
                             insertrec++;
                         }
                         else
                         {
-                            Logger.Info(DateTime.Now.ToLongTimeString() + $"销售退货单{returnInfo.Order_No}已存在");
+                            Logger.Info(DateTime.Now.ToLongTimeString() + $"销售退货单{returnInfo.order_no}已存在");
                             continue;
                         }
 
@@ -545,7 +545,7 @@ namespace SleckEc2KdInterface.BLL
                             PropertyInfo[] ProDetailList = returnItem.GetType().GetProperties();
                             foreach (PropertyInfo detail in ProDetailList)
                             {
-                                if (detail.Name != "Order_No")
+                                if (detail.Name != "order_no")
                                 {
                                     if (detail.PropertyType == typeof(System.DateTime))
                                     {
@@ -558,7 +558,7 @@ namespace SleckEc2KdInterface.BLL
                                 }
 
                             }
-                            returnItem.Order_No = returnInfo.Order_No;
+                            returnItem.order_no = returnInfo.order_no;
                             returnItems.Add(returnItem);
                         }
                     }
@@ -578,6 +578,8 @@ namespace SleckEc2KdInterface.BLL
 
         }
 
+
+       
         #endregion
 
 
@@ -606,7 +608,7 @@ namespace SleckEc2KdInterface.BLL
            endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
             string[] shops = new string[] { "TM01" ,"002"};
             Logger.Info(DateTime.Now.ToLongTimeString() + "开始获取奇门销售出库单数据时间范围:" + starttime + "--" + endtime);
-            List<wdtstockout> orderlst = dbContextTB.wdtstockoutTBDb.GetList(h => SqlFunc.Between(h.Consign_Time, starttime, endtime) && (h.Status == "95" || h.Status == "110" || h.Status == "105" || h.Status == "113") && shops.Contains(h.Shop_No)) ;
+            List<wdtstockout> orderlst = dbContextEc.wdtstockoutTBDb.GetList(h => SqlFunc.Between(h.Consign_Time, starttime, endtime) && (h.Status == "95" || h.Status == "110" || h.Status == "105" || h.Status == "113") && shops.Contains(h.Shop_No)) ;
           //  List<wdtstockout> orderlst = dbContextTB.wdtstockoutTBDb.GetList(h => SqlFunc.Between(h.Consign_Time, starttime, endtime) && (h.Status == "113") && shops.Contains(h.Shop_No));
 
             if (orderlst.Count>0)
@@ -643,7 +645,7 @@ namespace SleckEc2KdInterface.BLL
                     {
                         wdtstockoutinfo = orders[r];
                                             
-                        if (dbContext.SaleStockOutInfoDb.GetSingle(h => h.Order_No == wdtstockoutinfo.Order_No) is null)
+                        if (dbContext.SaleStockOutInfoDb.GetSingle(h => h.order_no == wdtstockoutinfo.Order_No) is null)
                         {
                             stockInfo = new T_Sale_StockOutInfo();
                             PropertyInfo[] PropertyList = stockInfo.GetType().GetProperties();
@@ -668,7 +670,7 @@ namespace SleckEc2KdInterface.BLL
                         
                             stockInfos.Add(stockInfo);
                             //查询主表对应明细
-                            details = dbContextTB.detailslistTBDb.GetList(d => d.Stockout_Id == wdtstockoutinfo.Stockout_Id);
+                            details = dbContextEc.detailslistTBDb.GetList(d => d.Stockout_Id == wdtstockoutinfo.Stockout_Id);
                             for(int d=0;d<details.Count;d++)
                             {
                                 stockItem = new T_Sale_StockOutItem();
@@ -678,7 +680,7 @@ namespace SleckEc2KdInterface.BLL
                                 foreach (PropertyInfo pdetail in ProDetailList)
                                 {
                                     object  value;
-                                    if (pdetail.Name != "Order_No")
+                                    if (pdetail.Name != "order_no")
                                     {
                                         
                                         if (pdetail.Name != "Expire_Date")
@@ -701,7 +703,7 @@ namespace SleckEc2KdInterface.BLL
                                         }
                                     }
                                 }
-                                stockItem.Order_No = stockInfo.Order_No;
+                                stockItem.order_no = stockInfo.order_no;
                                 stockItems.Add(stockItem);
 
                             }
@@ -778,7 +780,7 @@ namespace SleckEc2KdInterface.BLL
             endtime = DateTime.Parse(starttime).AddDays(30) > DateTime.Now ? DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") : DateTime.Parse(starttime).AddDays(30).ToString("yyyy-MM-dd HH:mm:ss");
             Logger.Info(DateTime.Now.ToLongTimeString() + "开始获取奇门销售退货单数据时间范围:" + starttime + "--" + endtime);
             // && h.Status == ConfigurationManager.AppSettings["saleoutbillstatustb"].ToString()
-            List<wdtthstockin> orderlst = dbContextTB.wdtthOrderTBDb.GetList(h => SqlFunc.Between(h.check_time, starttime, endtime) && (h.warehouse_no == "TMCK01" || h.warehouse_no == "TMCK02"  ));
+            List<wdtthstockin> orderlst = dbContextEc.wdtthOrderTBDb.GetList(h => SqlFunc.Between(h.check_time, starttime, endtime) && (h.warehouse_no == "TMCK01" || h.warehouse_no == "TMCK02"  ));
 
             if (orderlst.Count > 0)
             {
@@ -815,7 +817,7 @@ namespace SleckEc2KdInterface.BLL
                     {
                         wdtthorder = orders[r];
 
-                        if (dbContext.SaleReturnStockInfoDb.GetSingle(h => h.Order_No == wdtthorder.order_no) is null)
+                        if (dbContext.SaleReturnStockInfoDb.GetSingle(h => h.order_no == wdtthorder.order_no) is null)
                         {
                             stockInfo = new T_Sale_ReturnStockInfo();
                             PropertyInfo[] PropertyList = stockInfo.GetType().GetProperties();
@@ -841,7 +843,7 @@ namespace SleckEc2KdInterface.BLL
 
                             stockInfos.Add(stockInfo);
                             //查询主表对应明细
-                            wdtthorderinfos = dbContextTB.wdtthOrderinfoTBDb.GetList(d => d.stockin_id== wdtthorder.stockin_id);
+                            wdtthorderinfos = dbContextEc.wdtthOrderinfoTBDb.GetList(d => d.stockin_id== wdtthorder.stockin_id);
                             for (int d = 0; d < wdtthorderinfos.Count; d++)
                             {
                                 stockItem = new T_Sale_ReturnStockItem();
@@ -851,7 +853,7 @@ namespace SleckEc2KdInterface.BLL
                                 {
 
                                     object value;
-                                    if (detail.Name != "Order_No")
+                                    if (detail.Name != "order_no")
                                     {
 
                                         if (detail.Name != "Expire_Date")
@@ -877,7 +879,7 @@ namespace SleckEc2KdInterface.BLL
 
                                 }
 
-                                stockItem.Order_No = stockInfo.Order_No;
+                                stockItem.order_no = stockInfo.order_no;
                                 stockItems.Add(stockItem);
 
                             }
@@ -935,6 +937,8 @@ namespace SleckEc2KdInterface.BLL
 
         #endregion
 
+        //旺店通采购入库单
+      
 
     }
 }

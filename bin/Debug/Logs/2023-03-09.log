@@ -1,0 +1,33 @@
+﻿
+INFO  2023-03-09 18:09:42
+消息：SELECT [Fentryid],[FID],[Trade_Code],[Platform_Code],[Item_Id],[Item_Sku_Id],[Item_Code],[Item_Name],[Sku_Code],[Sku_Name],[Qty],[Price],[Amount],[Discount_Fee],[Amount_After],[Post_Fee],[Order_Type],[Platform_Flag],[Businessman_Name],[Is_Gift],[Tax_Rate],[Tax_Amount],[Other_Service_Fee],[Gift_Source_View],[Currency_Code],[Currency_Name],[Picurl],[Sku_Note],[Memo],[Code] FROM [T_Sale_DeliverItem]  WHERE ( [FID] = @FID0 )
+INFO  2023-03-09 18:09:42
+消息：{"@FID0":"舒蕾生物科技股份有限公司"}
+INFO  2023-03-09 18:10:00
+消息：SELECT [Fentryid],[FID],[Trade_Code],[Platform_Code],[Item_Id],[Item_Sku_Id],[Item_Code],[Item_Name],[Sku_Code],[Sku_Name],[Qty],[Price],[Amount],[Discount_Fee],[Amount_After],[Post_Fee],[Order_Type],[Platform_Flag],[Businessman_Name],[Is_Gift],[Tax_Rate],[Tax_Amount],[Other_Service_Fee],[Gift_Source_View],[Currency_Code],[Currency_Name],[Picurl],[Sku_Note],[Memo],[Code] FROM [T_Sale_DeliverItem]  WHERE ( [FID] = @FID0 )
+INFO  2023-03-09 18:10:00
+消息：{"@FID0":"舒蕾生物科技股份有限公司"}
+INFO  2023-03-09 18:10:32
+消息：SELECT [Fentryid],[FID],[Trade_Code],[Platform_Code],[Item_Id],[Item_Sku_Id],[Item_Code],[Item_Name],[Sku_Code],[Sku_Name],[Qty],[Price],[Amount],[Discount_Fee],[Amount_After],[Post_Fee],[Order_Type],[Platform_Flag],[Businessman_Name],[Is_Gift],[Tax_Rate],[Tax_Amount],[Other_Service_Fee],[Gift_Source_View],[Currency_Code],[Currency_Name],[Picurl],[Sku_Note],[Memo],[Code] FROM [T_Sale_DeliverItem]  WHERE ( [FID] = @FID0 )
+INFO  2023-03-09 18:10:32
+消息：{"@FID0":"舒蕾生物科技股份有限公司"}
+INFO  2023-03-09 18:36:21
+消息：SELECT [Fentryid],[FID],[Trade_Code],[Platform_Code],[Item_Id],[Item_Sku_Id],[Item_Code],[Item_Name],[Sku_Code],[Sku_Name],[Qty],[Price],[Amount],[Discount_Fee],[Amount_After],[Post_Fee],[Order_Type],[Platform_Flag],[Businessman_Name],[Is_Gift],[Tax_Rate],[Tax_Amount],[Other_Service_Fee],[Gift_Source_View],[Currency_Code],[Currency_Name],[Picurl],[Sku_Note],[Memo],[Code] FROM [T_Sale_DeliverItem]  WHERE ( [FID] = @FID0 )
+INFO  2023-03-09 18:36:22
+消息：{"@FID0":"舒蕾生物科技股份有限公司"}
+INFO  2023-03-09 18:36:39
+消息：SELECT [Fentryid],[FID],[Trade_Code],[Platform_Code],[Item_Id],[Item_Sku_Id],[Item_Code],[Item_Name],[Sku_Code],[Sku_Name],[Qty],[Price],[Amount],[Discount_Fee],[Amount_After],[Post_Fee],[Order_Type],[Platform_Flag],[Businessman_Name],[Is_Gift],[Tax_Rate],[Tax_Amount],[Other_Service_Fee],[Gift_Source_View],[Currency_Code],[Currency_Name],[Picurl],[Sku_Note],[Memo],[Code] FROM [T_Sale_DeliverItem]  WHERE ( [FID] = @FID0 )
+INFO  2023-03-09 18:36:40
+消息：{"@FID0":"舒蕾生物科技股份有限公司"}
+INFO  2023-03-09 18:38:13
+消息：SELECT [Fentryid],[FID],[Trade_Code],[Platform_Code],[Item_Id],[Item_Sku_Id],[Item_Code],[Item_Name],[Sku_Code],[Sku_Name],[Qty],[Price],[Amount],[Discount_Fee],[Amount_After],[Post_Fee],[Order_Type],[Platform_Flag],[Businessman_Name],[Is_Gift],[Tax_Rate],[Tax_Amount],[Other_Service_Fee],[Gift_Source_View],[Currency_Code],[Currency_Name],[Picurl],[Sku_Note],[Memo],[Code] FROM [T_Sale_DeliverItem]  WHERE ( [FID] = @FID0 )
+INFO  2023-03-09 18:38:14
+消息：{"@FID0":"舒蕾生物科技股份有限公司"}
+INFO  2023-03-09 18:39:06
+消息：SELECT [Fentryid],[FID],[Trade_Code],[Platform_Code],[Item_Id],[Item_Sku_Id],[Item_Code],[Item_Name],[Sku_Code],[Sku_Name],[Qty],[Price],[Amount],[Discount_Fee],[Amount_After],[Post_Fee],[Order_Type],[Platform_Flag],[Businessman_Name],[Is_Gift],[Tax_Rate],[Tax_Amount],[Other_Service_Fee],[Gift_Source_View],[Currency_Code],[Currency_Name],[Picurl],[Sku_Note],[Memo],[Code] FROM [T_Sale_DeliverItem]  WHERE ( [FID] = @FID0 )
+INFO  2023-03-09 18:39:06
+消息：{"@FID0":"舒蕾生物科技股份有限公司"}
+INFO  2023-03-09 18:40:19
+消息：SELECT [Fentryid],[FID],[Trade_Code],[Platform_Code],[Item_Id],[Item_Sku_Id],[Item_Code],[Item_Name],[Sku_Code],[Sku_Name],[Qty],[Price],[Amount],[Discount_Fee],[Amount_After],[Post_Fee],[Order_Type],[Platform_Flag],[Businessman_Name],[Is_Gift],[Tax_Rate],[Tax_Amount],[Other_Service_Fee],[Gift_Source_View],[Currency_Code],[Currency_Name],[Picurl],[Sku_Note],[Memo],[Code] FROM [T_Sale_DeliverItem]  WHERE ( [FID] = @FID0 )
+INFO  2023-03-09 18:40:19
+消息：{"@FID0":"舒蕾生物科技股份有限公司"}

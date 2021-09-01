@@ -1,0 +1,121 @@
+﻿
+INFO  2021-03-15 15:12:56
+消息：Default Quartz.NET properties loaded from embedded resource file
+INFO  2021-03-15 15:12:56
+消息：Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+INFO  2021-03-15 15:12:56
+消息：Quartz Scheduler v.3.2.4.0 created.
+INFO  2021-03-15 15:12:56
+消息：RAMJobStore initialized.
+INFO  2021-03-15 15:12:56
+消息：Scheduler meta-data: Quartz Scheduler (v3.2.4.0) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'Quartz.Core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'Quartz.Simpl.DefaultThreadPool' - with 10 threads.
+  Using job-store 'Quartz.Simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+INFO  2021-03-15 15:12:56
+消息：Quartz scheduler 'DefaultQuartzScheduler' initialized
+INFO  2021-03-15 15:12:56
+消息：Quartz scheduler version: 3.2.4.0
+INFO  2021-03-15 15:12:56
+消息：Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+INFO  2021-03-15 15:12:56
+消息：Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+INFO  2021-03-15 15:12:56
+消息：服务已开启，PID：17168，TID：1，调用 ServiceControl.Start(HostControl hostControl) 方法
+INFO  2021-03-15 15:12:57
+消息：15:12:57开启采购入库单同步任务
+INFO  2021-03-15 15:12:58
+消息：15:12:58开始获取旺店通采购入库单数据时间范围:2021-01-27 00:00:00--2021-01-28 00:00:00
+INFO  2021-03-15 15:12:58
+消息：15:12:58查询成功,获得记录数:3
+INFO  2021-03-15 15:12:58
+消息：15:12:58开始转换并保存获取到的采购入库单数据...
+INFO  2021-03-15 15:12:58
+消息：15:12:58采购单RK2101270001已存在
+INFO  2021-03-15 15:12:58
+消息：15:12:58采购单RK2101270003已存在
+INFO  2021-03-15 15:12:58
+消息：15:12:58采购单RK2101270004已存在
+INFO  2021-03-15 15:12:58
+消息：15:12:58没有需要保存的数据!
+INFO  2021-03-15 15:12:58
+消息：15:12:58采购入库单同步任务完成
+INFO  2021-03-15 15:13:43
+消息：Default Quartz.NET properties loaded from embedded resource file
+INFO  2021-03-15 15:13:43
+消息：Initialized Scheduler Signaller of type: Quartz.Core.SchedulerSignalerImpl
+INFO  2021-03-15 15:13:43
+消息：Quartz Scheduler v.3.2.4.0 created.
+INFO  2021-03-15 15:13:43
+消息：RAMJobStore initialized.
+INFO  2021-03-15 15:13:43
+消息：Scheduler meta-data: Quartz Scheduler (v3.2.4.0) 'DefaultQuartzScheduler' with instanceId 'NON_CLUSTERED'
+  Scheduler class: 'Quartz.Core.QuartzScheduler' - running locally.
+  NOT STARTED.
+  Currently in standby mode.
+  Number of jobs executed: 0
+  Using thread pool 'Quartz.Simpl.DefaultThreadPool' - with 10 threads.
+  Using job-store 'Quartz.Simpl.RAMJobStore' - which does not support persistence. and is not clustered.
+
+INFO  2021-03-15 15:13:43
+消息：Quartz scheduler 'DefaultQuartzScheduler' initialized
+INFO  2021-03-15 15:13:43
+消息：Quartz scheduler version: 3.2.4.0
+INFO  2021-03-15 15:13:43
+消息：Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+INFO  2021-03-15 15:13:43
+消息：Scheduler DefaultQuartzScheduler_$_NON_CLUSTERED started.
+INFO  2021-03-15 15:13:43
+消息：服务已开启，PID：17596，TID：1，调用 ServiceControl.Start(HostControl hostControl) 方法
+INFO  2021-03-15 15:13:44
+消息：15:13:44开启采购入库单同步任务
+INFO  2021-03-15 15:13:45
+消息：15:13:45开始获取旺店通采购入库单数据时间范围:2021-03-07 22:07:21--2021-03-15 15:13:45
+INFO  2021-03-15 15:13:45
+消息：15:13:45查询成功,获得记录数:17
+INFO  2021-03-15 15:13:45
+消息：15:13:45开始转换并保存获取到的采购入库单数据...
+INFO  2021-03-15 15:13:45
+消息：15:13:45采购单RK2103070035已存在
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103090096添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103090097添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103100041添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103100042添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103100043添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103100044添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103130018添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103130022添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103080058添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103080059添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103130004添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103130005添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103130015添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103130016添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103140065添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45将采购单RK2103140066添加到待插入列表
+INFO  2021-03-15 15:13:45
+消息：15:13:45开启事务，保存数据...
+INFO  2021-03-15 15:13:46
+消息：15:13:46保存成功，提交事务，共同步单据数：16
+INFO  2021-03-15 15:13:46
+消息：15:13:46采购入库单同步任务完成

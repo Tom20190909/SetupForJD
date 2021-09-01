@@ -1,0 +1,15 @@
+select a.*  into  T_Sale_StockOutItem2021 from [dbo].[T_Sale_StockOutItem]  a
+left join [dbo].[T_Sale_StockOutInfo]             b on a.order_no =b.order_no
+where convert(date,consign_time,120) between '2021-01-01' and '2021-04-30' 
+
+select * into  T_Sale_StockOutInfo2021 from [dbo].[T_Sale_StockOutInfo]     
+where convert(date,consign_time,120) between '2021-01-01' and '2021-04-30' 
+
+
+select count(1)   from [dbo].[T_Sale_StockOutItem]  a
+left join [dbo].[T_Sale_StockOutInfo]             b on a.order_no =b.order_no
+where convert(date,consign_time,120) between '2021-01-01' and '2021-04-30' 
+select count(1)   from [dbo].[T_Sale_StockOutItem2021] 
+ select count(1)  from  [dbo].[T_Sale_StockOutInfo2021]  
+ select count(1)  from  [dbo].[T_Sale_StockOutInfo]     
+ where convert(date,consign_time,120) between '2021-01-01' and '2021-04-30' 

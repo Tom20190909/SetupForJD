@@ -1,0 +1,1 @@
+SleckEc2KdInterface.exe uninstall

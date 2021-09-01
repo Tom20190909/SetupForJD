@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" />
+  </configSections>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.7.2" />
+  </startup>
+  <log4net>
+    <appender name="RollingLogFileAppender" type="log4net.Appender.RollingFileAppender">
+      <param name="Encoding" value="utf-8" />
+      <param name="RollingStyle" value="date" />
+      <param name="File" value="Logs\" />
+      <param name="DatePattern" value="yyyy-MM-dd&quot;.log&quot;" />
+      <param name="StaticLogFileName" value="false" />
+      <param name="MaxSizeRollBackups" value="10" />
+      <param name="AppendToFile" value="true" />
+      <layout type="log4net.Layout.PatternLayout">
+        <param name="ConversionPattern" value="%n%-6p%d{yyyy-MM-dd HH:mm:ss}%n消息：%m" />
+      </layout>
+    </appender>
+    <root name="logerror">
+      <level value="INFO" />
+      <appender-ref ref="RollingLogFileAppender" />
+    </root>
+  </log4net>
+  <connectionStrings>
+    <!--SQL-->
+    <add name="sqlconnstr" connectionString="" providerName="System.Data.SqlClient" />
+    <!--<add name="sqlconnstr" connectionString="server=10.10.8.238;database=AIS20201109212058;uid=tom;pwd=test7777" providerName="System.Data.SqlClient" />-->
+    <add name="sqlconnstrtb" connectionString="" providerName="System.Data.SqlClient" />
+    <add name="sqljdconnstr" connectionString="" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-12.0.0.0" newVersion="12.0.0.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Memory" publicKeyToken="cc7b13ffcd2ddd51" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-4.0.1.2" newVersion="4.0.1.2" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.ValueTuple" publicKeyToken="cc7b13ffcd2ddd51" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-4.0.3.0" newVersion="4.0.3.0" />
+      </dependentAssembly>
+      <dependentAssembly>
+        <assemblyIdentity name="System.Runtime.CompilerServices.Unsafe" publicKeyToken="b03f5f7f11d50a3a" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-6.0.0.0" newVersion="6.0.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+  <appSettings>
+    <add key="Q_Interval" value="30" />
+    <add key="sid" value="shulei2" />
+    <add key="appkey" value="shulei2-ot" />
+    <add key="sessionkey" value="2b37bb5938a947f7b74864d0cd2c3b9d" />
+    <add key="appsecret" value="22c795a397c01fee727448ba76c1d732" />
+    <add key="tboutstr" value="Calc_Post_Cost,Post_Cost,Calc_Weight,Post_Weight,Package_Cost,Raw_Goods_Count" />
+    <!--采购入库单状态10已取消20编辑中25待价格确认30待审核60待结算80已完成-->
+    <add key="purbillstatus" value="80" />
+    <!--销售出库单状态出库单状态 5 已取消 48未确认 50待审核 52待推送 53同步失败  55已审核 95 已发货 105部分打款 110已完成  113 异常发货 115回传失败 120回传成功-->
+    <add key="saleoutbillstatus" value="95" />
+    <add key="saleoutbillstatustb" value="95" />
+    <!--销售退货单状态入库单状态 10已取消20编辑中30待审核60待结算80已完成（默认查询80已完成单据）-->
+    <add key="salereturnbillstatus" value="80" />
+    <!--
+		<add key="warehouse_no" value="CK011" />
+		
+		<add key="shop_no" value="DY01" />-->
+    <add key="tbshop_no" value="TM01" />
+    <add key="gatewayUrl" value="https://api.wangdian.cn/openapi2/" />
+    <add key="purstarttime" value="2021-01-27 00:00:00" />
+    <add key="saleoutstarttime" value="2021-01-27 00:00:00" />
+    <add key="saleoutstarttimetb" value="2021-01-27 00:00:00" />
+    <add key="salereturnstarttime" value="2021-01-27 00:00:00" />
+    <add key="salereturnstarttimetb" value="2021-01-27 00:00:00" />
+    <!--销售退货单状态入库单状态 10已取消20编辑中30待审核60待结算80已完成（默认查询80已完成单据）-->
+    <add key="salereturnbillstatus" value="80" />
+    <add key="cloudUrl" value="http://172.28.18.96/k3cloud/" />
+    <!--测式系统：5fa942995528fe 5dca00fe49cc8e-->
+    <add key="dbId" value="5fa942995528fe" />
+    <add key="username" value="SUMEI" />
+    <add key="userpassword" value="888888" />
+    <!--组织编码：舒美-->
+    <add key="useorgno" value="100" />
+    <!--供应商编码：舒蕾-->
+    <add key="supplerno" value="SLEK" />
+    <!--销售部门编码：电商经营部-->
+    <add key="saledeptno" value="dsS36J" />
+    <!--采购部门编码:BM000020 电商部-直播电商-->
+    <add key="purdeptno" value="BM000020" />
+    <!--销售员编码：吴波-->
+    <add key="salerno" value="M0010" />
+    <!--单位：支-->
+    <add key="unitno" value="支" />
+    <!--天猫客户编码-->
+    <add key="tmcustno" value="CUST0463" />
+    <!--抖音客户编码-->
+    <add key="dycustno" value="CUST0449" />
+    <!--快手客户编码-->
+    <add key="kscustno" value="CUST0453" />
+    <!--有赞客户编码-->
+    <add key="yzcustno" value="CUST0450" />
+    <!--客户联系人-->
+    <add key="khcontact" value="1" />
+    <!--仓库编码：旺店通次品仓-->
+    <add key="stockno" value="CK012" />
+    <!--仓库编码：天猫次品仓-->
+    <add key="tmstockno" value="TMCK02" />
+    <!--退货客户：电商平台-->
+    <add key="returncustno" value="KH202101210014" />
+    <add key="ClientSettingsProvider.ServiceUri" value="" />
+	<add key="userName" value="" />
+	<add key="userPwd" value="" />
+  </appSettings>
+  <system.web>
+    <membership defaultProvider="ClientAuthenticationMembershipProvider">
+      <providers>
+        <add name="ClientAuthenticationMembershipProvider" type="System.Web.ClientServices.Providers.ClientFormsAuthenticationMembershipProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri="" />
+      </providers>
+    </membership>
+    <roleManager defaultProvider="ClientRoleProvider" enabled="true">
+      <providers>
+        <add name="ClientRoleProvider" type="System.Web.ClientServices.Providers.ClientRoleProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri="" cacheTimeout="86400" />
+      </providers>
+    </roleManager>
+  </system.web>
+</configuration>

@@ -14,7 +14,7 @@ namespace SleckEc2KdInterface
     static class Program
     {
         //  private static ILog Logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        [STAThread]
+       [STAThread]
         static void Main()
         {
             try
@@ -24,7 +24,7 @@ namespace SleckEc2KdInterface
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
                
-                Application.Run(new Form2());
+                Application.Run(new wflogin());
             }
             catch(Exception ex)
             {
