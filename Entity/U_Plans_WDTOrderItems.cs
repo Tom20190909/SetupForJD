@@ -201,5 +201,12 @@ namespace SlekGift.Models
         public DateTime Consign_time { get; set; }
 
         public int logistics_type { get; set; }
+
+        /// <summary>
+        /// Desc:
+        /// Default:
+        /// Nullable:True
+        /// </summary>           
+        public string WDTAddress { get; set; }
     }
 }
