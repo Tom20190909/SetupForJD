@@ -1,4 +1,4 @@
-﻿using Microsoft.Win32;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using NPOI.HSSF.UserModel;
@@ -46,10 +46,15 @@ using static log4net.Appender.RollingFileAppender;
 using static NPOI.HSSF.Util.HSSFColor;
 using static System.Windows.Forms.AxHost;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using BorderStyle = NPOI.SS.UserModel.BorderStyle;
+using HorizontalAlignment = NPOI.SS.UserModel.HorizontalAlignment;
+using VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment;
+using UIMessageBox = SleckEc2KdInterface.UI.NexusMessageBox;
+using MessageBox = SleckEc2KdInterface.UI.NexusMessageBox;
 
 namespace SleckEc2KdInterface
 {
-    public partial class Form5 : UIForm
+    public partial class Form5 : UI.NexusWindow
     {
         static DbContext dbContext = new DbContext(false);
         static DbContext dbContextEc = new DbContext(true);
@@ -70,6 +75,8 @@ namespace SleckEc2KdInterface
         public Form5()
         {
             InitializeComponent();
+            UI.NexusShell.ApplyMain(this, uiTabControl1, false);
+            UI.NexusPageLayouts.Apply(this, false);
         }
 
         private void uiButton1_Click(object sender, EventArgs e)
@@ -1076,6 +1083,65 @@ namespace SleckEc2KdInterface
             uiTextBox8.Text = wflogin.fcustName;
             uitxtdzCustName.Text = wflogin.fcustName;
             uiTextBox11.Text = wflogin.fcustName;
+
+            // 关闭所有 DataGridView 的自动列宽/行高，防止数据绑定时撑出容器边界
+            var allGrids = new System.Windows.Forms.DataGridView[]
+            {
+                uiDataGridView1, uiDataGridView5,
+                dataGridView1, dataGridView2, dataGridView3, dataGridView4,
+                dataGridView5, dataGridView6, dataGridView7, dataGridView8,
+                dataGridView9, dataGridView10, dataGridView11, dataGridView12,
+                dataGridView13, dataGridView14, dataGridView15
+            };
+            foreach (var dgv in allGrids)
+            {
+                dgv.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.None;
+                dgv.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.None;
+            }
+
+            // dataGridView2：父容器 tabPage6，顶部有工具栏约 110px，填满剩余空间
+            Action fixDgv2 = () =>
+            {
+                int top = dataGridView2.Location.Y;
+                int h = tabPage6.ClientSize.Height - top;
+                if (h > 0) dataGridView2.Size = new System.Drawing.Size(tabPage6.ClientSize.Width - dataGridView2.Location.X - 3, h);
+            };
+            fixDgv2();
+            tabPage6.Resize += (s, ev) => fixDgv2();
+
+            // dataGridView10：右边不能覆盖 richTextBox1（x=1116），左边从 x=503 开始
+            // dataGridView9 / dataGridView10 / richTextBox1 三者高度保持一致
+            Action fixDgv10 = () =>
+            {
+                int top = dataGridView10.Location.Y;
+                int right = richTextBox1.Location.X - 3;
+                int h = tabPage10.ClientSize.Height - top - 3;
+                if (h <= 0) return;
+                int w10 = right - dataGridView10.Location.X;
+                int w9  = dataGridView9.Width; // 宽度不变，只同步高度
+                if (w10 > 0) dataGridView10.Size = new System.Drawing.Size(w10, h);
+                dataGridView9.Size = new System.Drawing.Size(w9, h);
+                richTextBox1.Size  = new System.Drawing.Size(richTextBox1.Width, h);
+            };
+            fixDgv10();
+            tabPage10.Resize += (s, ev) => fixDgv10();
+
+            // dataGridView11：右边不能覆盖 richTextBox2（x=1111），左边从 x=502 开始
+            // dataGridView13 / dataGridView11 / richTextBox2 三者高度保持一致
+            Action fixDgv11 = () =>
+            {
+                int top = dataGridView11.Location.Y;
+                int right = richTextBox2.Location.X - 3;
+                int h = tabPage11.ClientSize.Height - top - 3;
+                if (h <= 0) return;
+                int w11  = right - dataGridView11.Location.X;
+                int w13  = dataGridView13.Width; // 宽度不变，只同步高度
+                if (w11 > 0) dataGridView11.Size = new System.Drawing.Size(w11, h);
+                dataGridView13.Size = new System.Drawing.Size(w13, h);
+                richTextBox2.Size   = new System.Drawing.Size(richTextBox2.Width, h);
+            };
+            fixDgv11();
+            tabPage11.Resize += (s, ev) => fixDgv11();
         }
 
         private void uiButton5_Click(object sender, EventArgs e)
@@ -4287,6 +4353,7 @@ namespace SleckEc2KdInterface
                                 {
                                     原始单号 = 原始单号,
                                     组合装编码 = 组合装号,
+                                    组合装名称 = 组合装名称,
                                     组合装数量 = 组合装数量.ToString(),
                                     货号 = GetPropertyValue(suiteGoods, new[] { "货号", "goods_no" }),
                                     商家编码 = GetPropertyValue(suiteGoods, new[] { "商家编码", "spec_no" }),
@@ -4304,6 +4371,7 @@ namespace SleckEc2KdInterface
                         {
                             原始单号 = 原始单号,
                             组合装编码 = 组合装号,
+                            组合装名称 = 组合装名称,
                             组合装数量 = 组合装数量.ToString(),
                             货号 = 组合装号,
                             商家编码 = 组合装商家编码,
@@ -4461,6 +4529,7 @@ namespace SleckEc2KdInterface
                     {
                         原始单号 = item.GetType().GetProperty("原始单号")?.GetValue(item)?.ToString() ?? "",
                         组合装编码 = item.GetType().GetProperty("组合装编码")?.GetValue(item)?.ToString() ?? "",
+                        组合装名称 = item.GetType().GetProperty("组合装名称")?.GetValue(item)?.ToString() ?? "",
                         组合装数量 = item.GetType().GetProperty("组合装数量")?.GetValue(item)?.ToString() ?? "",
                         货号 = item.GetType().GetProperty("货号")?.GetValue(item)?.ToString() ?? "",
                         商家编码 = item.GetType().GetProperty("商家编码")?.GetValue(item)?.ToString() ?? "",
@@ -4491,6 +4560,7 @@ namespace SleckEc2KdInterface
                         {
                             原始单号 = group.Key.原始单号,
                             组合装编码 = group.Key.组合装编码,
+                            组合装名称 = group.Key.组合装名称,
                             组合装数量 = group.Key.组合装数量,
                             货号 = group.Key.货号,
                             商家编码 = group.Key.商家编码,
@@ -4573,6 +4643,7 @@ namespace SleckEc2KdInterface
                     {
                         原始单号 = item.原始单号,
                         组合装编码 = item.组合装编码,
+                        组合装名称 = item.组合装名称,
                         组合装数量 = item.组合装数量,
                         货号 = goodsNo,
                         商家编码 = item.商家编码,
@@ -4784,6 +4855,12 @@ namespace SleckEc2KdInterface
                     // 设置列头文本
                     if (dataGridView10.Columns.Contains("原始单号"))
                         dataGridView10.Columns["原始单号"].HeaderText = "原始单号";
+                    if (dataGridView10.Columns.Contains("组合装编码"))
+                        dataGridView10.Columns["组合装编码"].HeaderText = "组合装编码";
+                    if (dataGridView10.Columns.Contains("组合装名称"))
+                        dataGridView10.Columns["组合装名称"].HeaderText = "组合装名称";
+                    if (dataGridView10.Columns.Contains("组合装数量"))
+                        dataGridView10.Columns["组合装数量"].HeaderText = "组合装数量";
                     if (dataGridView10.Columns.Contains("货号"))
                         dataGridView10.Columns["货号"].HeaderText = "货号";
                     if (dataGridView10.Columns.Contains("商家编码"))
@@ -6136,78 +6213,285 @@ namespace SleckEc2KdInterface
         {
             try
             {
-                var rawData = ((IEnumerable<object>)dataGridView9.DataSource).ToList();
-
-                if (saveFileDialog6.FileName != "")
+                if (dataGridView9.DataSource == null || dataGridView10.DataSource == null)
                 {
-                    // 按地址+收件人+电话分组，对总重量求和
-                    var grouped = rawData
-                        .GroupBy(item =>
+                    UIMessageBox.Show("请先完成数据查询和计算");
+                    return;
+                }
+
+                if (saveFileDialog6.FileName == "") return;
+
+                var grid9Data = ((IEnumerable<object>)dataGridView9.DataSource).ToList();
+                var grid10Data = ((IEnumerable<object>)dataGridView10.DataSource).ToList();
+
+                // 按收件人分组（收件人值如"华东收货组"等）
+                var groups = grid9Data
+                    .GroupBy(item => item.GetType().GetProperty("收件人")?.GetValue(item)?.ToString() ?? "")
+                    .ToList();
+
+                string tfilepath = saveFileDialog6.FileName;
+                MemoryStream ms = new MemoryStream();
+                HSSFWorkbook wb = new HSSFWorkbook();
+
+                // 公共样式
+                ICellStyle titleStyle = wb.CreateCellStyle();
+                IFont titleFont = wb.CreateFont();
+                titleFont.FontHeightInPoints = 16;
+                titleFont.IsBold = true;
+                titleStyle.SetFont(titleFont);
+                titleStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                titleStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Center;
+
+                ICellStyle subTitleStyle = wb.CreateCellStyle();
+                IFont subTitleFont = wb.CreateFont();
+                subTitleFont.FontHeightInPoints = 13;
+                subTitleFont.IsBold = true;
+                subTitleStyle.SetFont(subTitleFont);
+                subTitleStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                subTitleStyle.VerticalAlignment = VerticalAlignment.Center;
+
+                ICellStyle labelStyle = wb.CreateCellStyle();
+                IFont labelFont = wb.CreateFont();
+                labelFont.FontHeightInPoints = 11;
+                labelStyle.SetFont(labelFont);
+                labelStyle.VerticalAlignment = VerticalAlignment.Center;
+
+                ICellStyle headerStyle = wb.CreateCellStyle();
+                IFont headerFont = wb.CreateFont();
+                headerFont.FontHeightInPoints = 11;
+                headerFont.IsBold = true;
+                headerStyle.SetFont(headerFont);
+                headerStyle.Alignment = HorizontalAlignment.Center;
+                headerStyle.VerticalAlignment = VerticalAlignment.Center;
+                headerStyle.BorderTop = BorderStyle.Thin;
+                headerStyle.BorderBottom = BorderStyle.Thin;
+                headerStyle.BorderLeft = BorderStyle.Thin;
+                headerStyle.BorderRight = BorderStyle.Thin;
+
+                ICellStyle dataStyle = wb.CreateCellStyle();
+                IFont dataFont = wb.CreateFont();
+                dataFont.FontHeightInPoints = 11;
+                dataStyle.SetFont(dataFont);
+                dataStyle.Alignment = HorizontalAlignment.Center;
+                dataStyle.VerticalAlignment = VerticalAlignment.Center;
+                dataStyle.BorderTop = BorderStyle.Thin;
+                dataStyle.BorderBottom = BorderStyle.Thin;
+                dataStyle.BorderLeft = BorderStyle.Thin;
+                dataStyle.BorderRight = BorderStyle.Thin;
+
+                ICellStyle totalStyle = wb.CreateCellStyle();
+                IFont totalFont = wb.CreateFont();
+                totalFont.FontHeightInPoints = 11;
+                totalFont.IsBold = true;
+                totalStyle.SetFont(totalFont);
+                totalStyle.Alignment = HorizontalAlignment.Center;
+                totalStyle.VerticalAlignment = VerticalAlignment.Center;
+                totalStyle.BorderTop = BorderStyle.Thin;
+                totalStyle.BorderBottom = BorderStyle.Thin;
+                totalStyle.BorderLeft = BorderStyle.Thin;
+                totalStyle.BorderRight = BorderStyle.Thin;
+
+                ICellStyle footerStyle = wb.CreateCellStyle();
+                IFont footerFont = wb.CreateFont();
+                footerFont.FontHeightInPoints = 11;
+                footerStyle.SetFont(footerFont);
+                footerStyle.VerticalAlignment = VerticalAlignment.Center;
+                footerStyle.BorderTop = BorderStyle.Thin;
+                footerStyle.BorderBottom = BorderStyle.Thin;
+                footerStyle.BorderLeft = BorderStyle.Thin;
+                footerStyle.BorderRight = BorderStyle.Thin;
+
+                string today = DateTime.Now.ToString("yyyy-MM-dd");
+
+                foreach (var grp in groups)
+                {
+                    string sheetName = grp.Key;
+                    if (string.IsNullOrEmpty(sheetName)) sheetName = "未知";
+                    // Excel sheet名不能超过31字符
+                    if (sheetName.Length > 31) sheetName = sheetName.Substring(0, 31);
+
+                    ISheet sheet = wb.CreateSheet(sheetName);
+                    sheet.SetColumnWidth(0, 18 * 256); // 组合编码
+                    sheet.SetColumnWidth(1, 22 * 256); // 组合名称
+                    sheet.SetColumnWidth(2, 10 * 256); // 套数
+                    sheet.SetColumnWidth(3, 10 * 256); // 箱数
+                    sheet.SetColumnWidth(4, 12 * 256); // 重量
+                    sheet.SetColumnWidth(5, 18 * 256); // 备注
+
+                    int rowIdx = 0;
+
+                    // 获取该收货组的所有原始单号
+                    var tids = grp.Select(item => item.GetType().GetProperty("原始单号")?.GetValue(item)?.ToString() ?? "").ToList();
+
+                    // 获取该收货组的地址（取第一条）
+                    string address = grp.First().GetType().GetProperty("地址")?.GetValue(grp.First())?.ToString() ?? "";
+                    string phone = grp.First().GetType().GetProperty("电话")?.GetValue(grp.First())?.ToString() ?? "";
+
+                    // 获取该收货组在dataGridView10中的组合装数据，按组合装编码分组汇总
+                    var suiteItems = grid10Data
+                        .Where(x => tids.Contains(x.GetType().GetProperty("原始单号")?.GetValue(x)?.ToString() ?? ""))
+                        .GroupBy(x => new
                         {
-                            var t = item.GetType();
-                            return new
-                            {
-                                地址 = t.GetProperty("地址")?.GetValue(item)?.ToString() ?? "",
-                                收件人 = t.GetProperty("收件人")?.GetValue(item)?.ToString() ?? "",
-                                电话 = t.GetProperty("电话")?.GetValue(item)?.ToString() ?? ""
-                            };
+                            组合装编码 = x.GetType().GetProperty("组合装编码")?.GetValue(x)?.ToString() ?? "",
+                            组合装名称 = x.GetType().GetProperty("组合装名称")?.GetValue(x)?.ToString() ?? ""
                         })
                         .Select(g =>
                         {
-                            decimal totalWeight = g.Sum(item =>
+                            // 套数：取组合装数量之和（每个原始单号只取一次）
+                            var distinctTids = g.GroupBy(x => x.GetType().GetProperty("原始单号")?.GetValue(x)?.ToString() ?? "");
+                            int totalSuites = 0;
+                            decimal totalWeight = 0;
+                            foreach (var tidGrp in distinctTids)
                             {
-                                var val = item.GetType().GetProperty("总重量")?.GetValue(item);
-                                return val == null ? 0m : Convert.ToDecimal(val);
-                            });
+                                var first = tidGrp.First();
+                                var firstType = first.GetType();
+                                string qtyStr = firstType.GetProperty("组合装数量")?.GetValue(first)?.ToString() ?? "0";
+                                if (int.TryParse(qtyStr, out int qty)) totalSuites += qty;
+                                // 重量：该原始单号下该组合装的重量合计
+                                foreach (var x in tidGrp)
+                                {
+                                    var xType = x.GetType();
+                                    decimal w = Convert.ToDecimal(xType.GetProperty("重量合计")?.GetValue(x) ?? 0);
+                                    totalWeight += w;
+                                }
+                            }
                             return new
                             {
-                                地址 = g.Key.地址,
-                                收件人 = g.Key.收件人,
-                                电话 = g.Key.电话,
-                                总重量 = totalWeight
+                                组合装编码 = g.Key.组合装编码,
+                                组合名称 = g.Key.组合装名称,
+                                套数 = totalSuites,
+                                重量 = totalWeight
                             };
                         })
+                        .Where(x => !string.IsNullOrEmpty(x.组合装编码))
                         .ToList();
 
-                    string tfilepath = saveFileDialog6.FileName;
-                    MemoryStream ms = new MemoryStream();
-                    HSSFWorkbook wb = new HSSFWorkbook();
-                    ISheet sheet = wb.CreateSheet("物流面单");
+                    // 行1：公司名称（A-F合并居中）
+                    var row0 = sheet.CreateRow(rowIdx++);
+                    row0.Height = 600;
+                    for (int c = 0; c < 6; c++) { var cell = row0.CreateCell(c); cell.CellStyle = titleStyle; }
+                    row0.GetCell(0).SetCellValue("舒蕾生物科技有限公司");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 0, 5));
 
-                    sheet.SetColumnWidth(0, 60 * 256);
-                    sheet.SetColumnWidth(1, 15 * 256);
-                    sheet.SetColumnWidth(2, 15 * 256);
-                    sheet.SetColumnWidth(3, 12 * 256);
+                    // 行2：送货单（A-F合并居中）
+                    var row1 = sheet.CreateRow(rowIdx++);
+                    row1.Height = 500;
+                    for (int c = 0; c < 6; c++) { var cell = row1.CreateCell(c); cell.CellStyle = subTitleStyle; }
+                    row1.GetCell(0).SetCellValue("送货单");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 0, 5));
 
-                    // 表头
-                    var headerRow = sheet.CreateRow(0);
-                    headerRow.CreateCell(0).SetCellValue("地址");
-                    headerRow.CreateCell(1).SetCellValue("收件人");
-                    headerRow.CreateCell(2).SetCellValue("电话");
-                    headerRow.CreateCell(3).SetCellValue("总重量");
+                    // 行3：客户 + 订单日期
+                    var row2 = sheet.CreateRow(rowIdx++);
+                    row2.Height = 400;
+                    for (int c = 0; c < 6; c++) { var cell = row2.CreateCell(c); cell.CellStyle = labelStyle; }
+                    row2.GetCell(0).SetCellValue("客户：唯品会");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 0, 2));
+                    row2.GetCell(3).SetCellValue("订单日期：" + today);
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 3, 5));
 
-                    // 数据行
-                    for (int j = 0; j < grouped.Count; j++)
+                    // 行4：地址
+                    var row3 = sheet.CreateRow(rowIdx++);
+                    row3.Height = 400;
+                    for (int c = 0; c < 6; c++) { var cell = row3.CreateCell(c); cell.CellStyle = labelStyle; }
+                    row3.GetCell(0).SetCellValue("地址：" + address);
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 0, 5));
+
+                    // 行5：收件人 + 电话
+                    var row4 = sheet.CreateRow(rowIdx++);
+                    row4.Height = 400;
+                    for (int c = 0; c < 6; c++) { var cell = row4.CreateCell(c); cell.CellStyle = labelStyle; }
+                    row4.GetCell(0).SetCellValue("收件人：" + sheetName);
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 0, 2));
+                    row4.GetCell(3).SetCellValue("电话：" + phone);
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 3, 5));
+
+                    // 行6：表格列头
+                    var headerRow = sheet.CreateRow(rowIdx++);
+                    headerRow.Height = 450;
+                    string[] headers = { "组合编码", "组合名称", "套数", "箱数", "重量", "备注" };
+                    for (int c = 0; c < headers.Length; c++)
                     {
-                        var row = sheet.CreateRow(j + 1);
-                        row.CreateCell(0).SetCellValue(grouped[j].地址);
-                        row.CreateCell(1).SetCellValue(grouped[j].收件人);
-                        row.CreateCell(2).SetCellValue(grouped[j].电话);
-                        row.CreateCell(3).SetCellValue((double)grouped[j].总重量);
+                        var cell = headerRow.CreateCell(c);
+                        cell.SetCellValue(headers[c]);
+                        cell.CellStyle = headerStyle;
                     }
 
-                    wb.Write(ms);
-                    ms.Flush();
-                    ms.Position = 0;
-
-                    FileStream dumpFile = new FileStream(tfilepath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
-                    ms.WriteTo(dumpFile);
-                    dumpFile.Close();
-                    this.Invoke(new Action(() =>
+                    // 数据行
+                    int dataStartRow = rowIdx;
+                    decimal totalSuitesAll = 0;
+                    decimal totalWeightAll = 0;
+                    foreach (var si in suiteItems)
                     {
-                        UIMessageBox.Show("数据导出完成!");
-                    }));
+                        var dataRow = sheet.CreateRow(rowIdx++);
+                        dataRow.Height = 400;
+                        dataRow.CreateCell(0).SetCellValue(si.组合装编码); dataRow.GetCell(0).CellStyle = dataStyle;
+                        dataRow.CreateCell(1).SetCellValue(si.组合名称);   dataRow.GetCell(1).CellStyle = dataStyle;
+                        dataRow.CreateCell(2).SetCellValue(si.套数);       dataRow.GetCell(2).CellStyle = dataStyle;
+                        dataRow.CreateCell(3).SetCellValue("");             dataRow.GetCell(3).CellStyle = dataStyle; // 箱数空置
+                        dataRow.CreateCell(4).SetCellValue((double)si.重量); dataRow.GetCell(4).CellStyle = dataStyle;
+                        dataRow.CreateCell(5).SetCellValue("");             dataRow.GetCell(5).CellStyle = dataStyle;
+                        totalSuitesAll += si.套数;
+                        totalWeightAll += si.重量;
+                    }
+
+                    // 合计行
+                    var totalRow = sheet.CreateRow(rowIdx++);
+                    totalRow.Height = 400;
+                    totalRow.CreateCell(0).SetCellValue("合计"); totalRow.GetCell(0).CellStyle = totalStyle;
+                    totalRow.CreateCell(1).SetCellValue("");     totalRow.GetCell(1).CellStyle = totalStyle;
+                    totalRow.CreateCell(2).SetCellValue((double)totalSuitesAll); totalRow.GetCell(2).CellStyle = totalStyle;
+                    totalRow.CreateCell(3).SetCellValue("");     totalRow.GetCell(3).CellStyle = totalStyle;
+                    totalRow.CreateCell(4).SetCellValue((double)totalWeightAll); totalRow.GetCell(4).CellStyle = totalStyle;
+                    totalRow.CreateCell(5).SetCellValue("");     totalRow.GetCell(5).CellStyle = totalStyle;
+
+                    // 空行
+                    sheet.CreateRow(rowIdx++);
+
+                    // 底部签收区 - 第一行标签
+                    var footerRow1 = sheet.CreateRow(rowIdx++);
+                    footerRow1.Height = 400;
+                    for (int c = 0; c < 6; c++) { var cell = footerRow1.CreateCell(c); cell.CellStyle = footerStyle; }
+                    footerRow1.GetCell(0).SetCellValue("仓库");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 0, 1));
+                    footerRow1.GetCell(2).SetCellValue("承运商");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 2, 3));
+                    footerRow1.GetCell(4).SetCellValue("收货方");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 4, 5));
+
+                    // 底部签收区 - 第二行
+                    var footerRow2 = sheet.CreateRow(rowIdx++);
+                    footerRow2.Height = 400;
+                    for (int c = 0; c < 6; c++) { var cell = footerRow2.CreateCell(c); cell.CellStyle = footerStyle; }
+                    footerRow2.GetCell(0).SetCellValue("交接人：");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 0, 1));
+                    footerRow2.GetCell(2).SetCellValue("承运人：");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 2, 3));
+                    footerRow2.GetCell(4).SetCellValue("签收人：");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 4, 5));
+
+                    // 底部签收区 - 第三行（日期）
+                    var footerRow3 = sheet.CreateRow(rowIdx++);
+                    footerRow3.Height = 400;
+                    for (int c = 0; c < 6; c++) { var cell = footerRow3.CreateCell(c); cell.CellStyle = footerStyle; }
+                    footerRow3.GetCell(0).SetCellValue("日期：");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 0, 1));
+                    footerRow3.GetCell(2).SetCellValue("日期：");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 2, 3));
+                    footerRow3.GetCell(4).SetCellValue("日期：");
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(rowIdx - 1, rowIdx - 1, 4, 5));
                 }
+
+                wb.Write(ms);
+                ms.Flush();
+                ms.Position = 0;
+
+                FileStream dumpFile = new FileStream(tfilepath, FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
+                ms.WriteTo(dumpFile);
+                dumpFile.Close();
+                this.Invoke(new Action(() =>
+                {
+                    UIMessageBox.Show("数据导出完成!");
+                }));
             }
             catch (Exception er)
             {
@@ -6397,67 +6681,19 @@ namespace SleckEc2KdInterface
                 dataStyle.BorderLeft = NPOI.SS.UserModel.BorderStyle.Thin;
                 dataStyle.BorderRight = NPOI.SS.UserModel.BorderStyle.Thin;
 
-                // 第0行：原始单号 | 收件人 | 商家编码（跨货号列合并）
-                // 第1行：原始单号 | 收件人 | 各货号
-                var row0 = sheet.CreateRow(0);
-                var row1 = sheet.CreateRow(1);
-
-                // 固定列：原始单号(col0)、收件人(col1)
-                var cell00 = row0.CreateCell(0); cell00.SetCellValue("原始单号"); cell00.CellStyle = headerStyle;
-                var cell01 = row0.CreateCell(1); cell01.SetCellValue("收件人"); cell01.CellStyle = headerStyle;
-                // 跨两行合并
-                sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 1, 0, 0));
-                sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 1, 1, 1));
-                var cell10 = row1.CreateCell(0); cell10.CellStyle = headerStyle;
-                var cell11 = row1.CreateCell(1); cell11.CellStyle = headerStyle;
-
                 sheet.SetColumnWidth(0, 22 * 256);
                 sheet.SetColumnWidth(1, 14 * 256);
 
-                int colIdx = 2;
-                foreach (var group in specGroups)
-                {
-                    int startCol = colIdx;
-                    // 第1行：各货号
-                    foreach (var goodsNo in group.货号列表)
-                    {
-                        var c1 = row1.CreateCell(colIdx);
-                        c1.SetCellValue(goodsNo);
-                        c1.CellStyle = headerStyle;
-                        sheet.SetColumnWidth(colIdx, 12 * 256);
-                        colIdx++;
-                    }
-                    int endCol = colIdx - 1;
-
-                    // 第0行：组合装编码，跨货号列合并，所有列都要创建并设置样式
-                    for (int ci = startCol; ci <= endCol; ci++)
-                    {
-                        var c0 = row0.CreateCell(ci);
-                        c0.SetCellValue(ci == startCol ? group.组合装编码 : "");
-                        c0.CellStyle = headerStyle;
-                    }
-                    if (endCol > startCol)
-                        sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(0, 0, startCol, endCol));
-                }
-
-                // 数据行：每个原始单号一行
-                int rowNum = 2;
+                // 预建每个订单的 qtyMap（组合装编码|货号 -> 数量）
+                var allQtyMaps = new Dictionary<string, Dictionary<string, int>>();
                 foreach (var order in grid9Data)
                 {
                     var orderType = order.GetType();
                     string tid = orderType.GetProperty("原始单号")?.GetValue(order)?.ToString() ?? "";
-                    string contact = orderType.GetProperty("收件人")?.GetValue(order)?.ToString() ?? "";
-
-                    var dataRow = sheet.CreateRow(rowNum++);
-                    var tidCell = dataRow.CreateCell(0); tidCell.SetCellValue(tid); tidCell.CellStyle = dataStyle;
-                    var contactCell = dataRow.CreateCell(1); contactCell.SetCellValue(contact); contactCell.CellStyle = dataStyle;
-
-                    // 查找该订单的商品明细，建立 组合装编码|货号 -> 数量 映射
+                    var qtyMap = new Dictionary<string, int>();
                     var orderItems = grid10Data
                         .Where(x => x.GetType().GetProperty("原始单号")?.GetValue(x)?.ToString() == tid)
                         .ToList();
-
-                    var qtyMap = new Dictionary<string, int>();
                     foreach (var item in orderItems)
                     {
                         var it = item.GetType();
@@ -6471,20 +6707,101 @@ namespace SleckEc2KdInterface
                             else qtyMap[key] = qty;
                         }
                     }
+                    allQtyMaps[tid] = qtyMap;
+                }
 
-                    int dc = 2;
-                    foreach (var group in specGroups)
+                // 计算总货号列数
+                int totalGoodsCols = specGroups.Sum(g => g.货号列表.Count);
+                const int MAX_COLS = 8; // 每块最多货号列数
+
+                // 将 specGroups 分配到各块，严格保证每块不超过 MAX_COLS 列，同一组合装不拆散
+                var blocks = new List<List<dynamic>>();
+                var currentBlock = new List<dynamic>();
+                int currentBlockCols = 0;
+                foreach (var g in specGroups)
+                {
+                    int groupCols = g.货号列表.Count;
+                    // 只要加入后会超过上限，且当前块已有内容，就切块
+                    if (currentBlockCols > 0 && currentBlockCols + groupCols > MAX_COLS)
                     {
-                        foreach (var goodsNo in group.货号列表)
+                        blocks.Add(currentBlock);
+                        currentBlock = new List<dynamic>();
+                        currentBlockCols = 0;
+                    }
+                    currentBlock.Add(g);
+                    currentBlockCols += groupCols;
+                }
+                if (currentBlock.Count > 0) blocks.Add(currentBlock);
+
+                // 写每个块，块间空2行
+                int startRow = 0;
+                foreach (var block in blocks)
+                {
+                    // 表头行0：原始单号 | 收件人 | 组合装编码（合并）
+                    // 表头行1：空 | 空 | 货号
+                    var row0 = sheet.CreateRow(startRow);
+                    var row1 = sheet.CreateRow(startRow + 1);
+
+                    var c00 = row0.CreateCell(0); c00.SetCellValue("原始单号"); c00.CellStyle = headerStyle;
+                    var c01 = row0.CreateCell(1); c01.SetCellValue("收件人"); c01.CellStyle = headerStyle;
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(startRow, startRow + 1, 0, 0));
+                    sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(startRow, startRow + 1, 1, 1));
+                    var c10 = row1.CreateCell(0); c10.CellStyle = headerStyle;
+                    var c11 = row1.CreateCell(1); c11.CellStyle = headerStyle;
+
+                    int colIdx = 2;
+                    foreach (var grp in block)
+                    {
+                        int startCol = colIdx;
+                        foreach (var goodsNo in grp.货号列表)
                         {
-                            string key = group.组合装编码 + "|" + goodsNo;
-                            int qty = qtyMap.ContainsKey(key) ? qtyMap[key] : 0;
-                            var cell = dataRow.CreateCell(dc);
-                            cell.SetCellValue(qty);
-                            cell.CellStyle = dataStyle;
-                            dc++;
+                            var c1 = row1.CreateCell(colIdx);
+                            c1.SetCellValue((string)goodsNo);
+                            c1.CellStyle = headerStyle;
+                            sheet.SetColumnWidth(colIdx, 10 * 256);
+                            colIdx++;
+                        }
+                        int endCol = colIdx - 1;
+                        for (int ci = startCol; ci <= endCol; ci++)
+                        {
+                            var c0 = row0.CreateCell(ci);
+                            c0.SetCellValue(ci == startCol ? (string)grp.组合装编码 : "");
+                            c0.CellStyle = headerStyle;
+                        }
+                        if (endCol > startCol)
+                            sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(startRow, startRow, startCol, endCol));
+                    }
+
+                    // 数据行
+                    int rowNum = startRow + 2;
+                    foreach (var order in grid9Data)
+                    {
+                        var orderType = order.GetType();
+                        string tid = orderType.GetProperty("原始单号")?.GetValue(order)?.ToString() ?? "";
+                        string contact = orderType.GetProperty("收件人")?.GetValue(order)?.ToString() ?? "";
+
+                        var dataRow = sheet.CreateRow(rowNum++);
+                        var tidCell = dataRow.CreateCell(0); tidCell.SetCellValue(tid); tidCell.CellStyle = dataStyle;
+                        var contactCell = dataRow.CreateCell(1); contactCell.SetCellValue(contact); contactCell.CellStyle = dataStyle;
+
+                        var qtyMap = allQtyMaps.ContainsKey(tid) ? allQtyMaps[tid] : new Dictionary<string, int>();
+                        int dc = 2;
+                        foreach (var grp in block)
+                        {
+                            foreach (var goodsNo in grp.货号列表)
+                            {
+                                string key = (string)grp.组合装编码 + "|" + (string)goodsNo;
+                                int qty = qtyMap.ContainsKey(key) ? qtyMap[key] : 0;
+                                var cell = dataRow.CreateCell(dc);
+                                cell.SetCellValue(qty);
+                                cell.CellStyle = dataStyle;
+                                dc++;
+                            }
                         }
                     }
+
+                    // 下一块起始行 = 当前块结束行 + 2空行 + 1
+                    startRow = startRow + 2 + grid9Data.Count + 2;
                 }
 
                 MemoryStream ms = new MemoryStream();
@@ -7576,7 +7893,7 @@ private void uiButton35_Click(object sender, EventArgs e)
                 model.Add("FAPPORGID", basedata); // Mandatory: Applying organization
 
                 // Optional fields with defaults
-                model.Add("FRemarks", "调往私域直播电商仓");
+                model.Add("FRemarks", "调往唯品会电商仓");
                 model.Add("FIsReturnWare", "false");
                 model.Add("FZJNote", "");
                 model.Add("FIsWDT", true);

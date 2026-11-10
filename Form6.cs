@@ -1,4 +1,4 @@
-﻿using Sunny.UI;
+using Sunny.UI;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,10 +14,12 @@ using System.Net.Http.Headers;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json;
 using System.Configuration;
+using UIMessageBox = SleckEc2KdInterface.UI.NexusMessageBox;
+using MessageBox = SleckEc2KdInterface.UI.NexusMessageBox;
 
 namespace SleckEc2KdInterface
 {
-    public partial class wflogin : UIForm
+    public partial class wflogin : UI.NexusWindow
     {
         public static string fcustId;
         public static string fuserId;
@@ -27,6 +29,7 @@ namespace SleckEc2KdInterface
         public wflogin()
         {
             InitializeComponent();
+            UI.NexusShell.ApplyLogin(this);
         }
 
 
@@ -62,7 +65,7 @@ namespace SleckEc2KdInterface
                 using (HttpClient client = new HttpClient())
                 {
 
-                    var user = new { FUserId = uitxtLoginId.Text, FUserPwd = uitxtLoginIPwd.Text };
+                    var user = new { FUserId = uitxtLoginId.Text, FUserPwd = uitxtLoginIPwd.Text, FUsePort = 1 };
                     var str = JsonConvert.SerializeObject(user);
 
                     HttpContent content = new StringContent(str);
@@ -75,13 +78,23 @@ namespace SleckEc2KdInterface
                     {
                         if (Convert.ToBoolean(result["IsSucc"]))
                         {
-                            fcustId = result["FCusCode"].ToString();
-                            fuserId = result["Uid"].ToString();
-                            fcustName= result["FUserName"].ToString();
-                            FUserType = result["FUserType"].ToString();
+                            fcustId = result["FCusCode"].ToString().Trim();
+                            fuserId = result["Uid"].ToString().Trim();
+                            fcustName = result["FUserName"].ToString().Trim();
+                            FUserType = result["FUserType"].ToString().Trim();
                             this.Hide();
-                            Form5 fm5 = new Form5();
-                            fm5.ShowDialog();
+                            if (FUserType == "5")
+                            {
+                                //分销商
+                                Form7 fm7 = new Form7();
+                                fm7.ShowDialog();
+                            }
+                            else
+                            {
+                                //客户
+                                Form5 fm5 = new Form5();
+                                fm5.ShowDialog();
+                            }
                         }
                         else
                         {

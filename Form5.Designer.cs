@@ -627,7 +627,7 @@ namespace SleckEc2KdInterface
             this.tabPage6.Controls.Add(this.uiGroupBox5);
             this.tabPage6.Location = new System.Drawing.Point(0, 40);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(200, 60);
+            this.tabPage6.Size = new System.Drawing.Size(1453, 548);
             this.tabPage6.TabIndex = 5;
             this.tabPage6.Text = "订单查询";
             this.tabPage6.UseVisualStyleBackColor = true;
@@ -688,7 +688,7 @@ namespace SleckEc2KdInterface
             this.uiDataGridView5.ScrollBarRectColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(160)))), ((int)(((byte)(255)))));
             this.uiDataGridView5.SelectedIndex = -1;
             this.uiDataGridView5.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.uiDataGridView5.Size = new System.Drawing.Size(200, 0);
+            this.uiDataGridView5.Size = new System.Drawing.Size(1453, 448);
             this.uiDataGridView5.Style = Sunny.UI.UIStyle.Custom;
             this.uiDataGridView5.TabIndex = 102;
             this.uiDataGridView5.Visible = false;
@@ -809,7 +809,7 @@ namespace SleckEc2KdInterface
             this.dataGridView2.RowsDefaultCellStyle = dataGridViewCellStyle154;
             this.dataGridView2.RowTemplate.Height = 23;
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(200, 0);
+            this.dataGridView2.Size = new System.Drawing.Size(1453, 448);
             this.dataGridView2.TabIndex = 100;
             this.dataGridView2.ColumnHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dataGridView2_ColumnHeaderMouseClick);
             this.dataGridView2.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView2_RowPostPaint);
@@ -850,7 +850,7 @@ namespace SleckEc2KdInterface
             this.uiGroupBox5.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiGroupBox5.Name = "uiGroupBox5";
             this.uiGroupBox5.Padding = new System.Windows.Forms.Padding(0, 32, 0, 0);
-            this.uiGroupBox5.Size = new System.Drawing.Size(200, 100);
+            this.uiGroupBox5.Size = new System.Drawing.Size(1453, 100);
             this.uiGroupBox5.Style = Sunny.UI.UIStyle.Custom;
             this.uiGroupBox5.TabIndex = 2;
             this.uiGroupBox5.Text = "查询";
@@ -1240,7 +1240,7 @@ namespace SleckEc2KdInterface
             this.tabPage2.Controls.Add(this.uiGroupBox3);
             this.tabPage2.Location = new System.Drawing.Point(0, 40);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(200, 60);
+            this.tabPage2.Size = new System.Drawing.Size(1453, 548);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "发货查询";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -1291,7 +1291,7 @@ namespace SleckEc2KdInterface
             this.dataGridView1.RowsDefaultCellStyle = dataGridViewCellStyle158;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(200, 0);
+            this.dataGridView1.Size = new System.Drawing.Size(1453, 488);
             this.dataGridView1.TabIndex = 101;
             // 
             // uiGroupBox3
@@ -1317,7 +1317,7 @@ namespace SleckEc2KdInterface
             this.uiGroupBox3.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiGroupBox3.Name = "uiGroupBox3";
             this.uiGroupBox3.Padding = new System.Windows.Forms.Padding(0, 32, 0, 0);
-            this.uiGroupBox3.Size = new System.Drawing.Size(200, 60);
+            this.uiGroupBox3.Size = new System.Drawing.Size(1453, 60);
             this.uiGroupBox3.Style = Sunny.UI.UIStyle.Custom;
             this.uiGroupBox3.TabIndex = 2;
             this.uiGroupBox3.Text = "查询";
@@ -1524,7 +1524,7 @@ namespace SleckEc2KdInterface
             this.tabPage3.Controls.Add(this.uiGroupBox4);
             this.tabPage3.Location = new System.Drawing.Point(0, 40);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(200, 60);
+            this.tabPage3.Size = new System.Drawing.Size(1453, 548);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "退货查询";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -1574,7 +1574,7 @@ namespace SleckEc2KdInterface
             this.dataGridView3.RowsDefaultCellStyle = dataGridViewCellStyle162;
             this.dataGridView3.RowTemplate.Height = 23;
             this.dataGridView3.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView3.Size = new System.Drawing.Size(200, 0);
+            this.dataGridView3.Size = new System.Drawing.Size(1453, 488);
             this.dataGridView3.TabIndex = 102;
             this.dataGridView3.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView3_RowPostPaint);
             // 
@@ -1601,7 +1601,7 @@ namespace SleckEc2KdInterface
             this.uiGroupBox4.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiGroupBox4.Name = "uiGroupBox4";
             this.uiGroupBox4.Padding = new System.Windows.Forms.Padding(0, 32, 0, 0);
-            this.uiGroupBox4.Size = new System.Drawing.Size(200, 60);
+            this.uiGroupBox4.Size = new System.Drawing.Size(1453, 60);
             this.uiGroupBox4.Style = Sunny.UI.UIStyle.Custom;
             this.uiGroupBox4.TabIndex = 4;
             this.uiGroupBox4.Text = "查询";
@@ -1809,7 +1809,7 @@ namespace SleckEc2KdInterface
             this.tabPage4.Controls.Add(this.uiGroupBox2);
             this.tabPage4.Location = new System.Drawing.Point(0, 40);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(200, 60);
+            this.tabPage4.Size = new System.Drawing.Size(1453, 548);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "对账";
             this.tabPage4.UseVisualStyleBackColor = true;
@@ -1830,7 +1830,7 @@ namespace SleckEc2KdInterface
             this.uiTabControl2.Name = "uiTabControl2";
             this.uiTabControl2.RightToLeft = System.Windows.Forms.RightToLeft.No;
             this.uiTabControl2.SelectedIndex = 0;
-            this.uiTabControl2.Size = new System.Drawing.Size(200, 0);
+            this.uiTabControl2.Size = new System.Drawing.Size(1453, 263);
             this.uiTabControl2.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.uiTabControl2.Style = Sunny.UI.UIStyle.Custom;
             this.uiTabControl2.TabBackColor = System.Drawing.Color.White;
@@ -1846,7 +1846,7 @@ namespace SleckEc2KdInterface
             this.tabPage7.Controls.Add(this.dataGridView5);
             this.tabPage7.Location = new System.Drawing.Point(0, 40);
             this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(200, 0);
+            this.tabPage7.Size = new System.Drawing.Size(1453, 223);
             this.tabPage7.TabIndex = 0;
             this.tabPage7.Text = "订货明细";
             // 
@@ -1895,7 +1895,7 @@ namespace SleckEc2KdInterface
             this.dataGridView5.RowsDefaultCellStyle = dataGridViewCellStyle166;
             this.dataGridView5.RowTemplate.Height = 23;
             this.dataGridView5.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView5.Size = new System.Drawing.Size(200, 0);
+            this.dataGridView5.Size = new System.Drawing.Size(1453, 223);
             this.dataGridView5.TabIndex = 103;
             // 
             // tabPage8
@@ -1904,7 +1904,7 @@ namespace SleckEc2KdInterface
             this.tabPage8.Controls.Add(this.dataGridView6);
             this.tabPage8.Location = new System.Drawing.Point(0, 40);
             this.tabPage8.Name = "tabPage8";
-            this.tabPage8.Size = new System.Drawing.Size(200, 60);
+            this.tabPage8.Size = new System.Drawing.Size(200, 0);
             this.tabPage8.TabIndex = 1;
             this.tabPage8.Text = "发货明细";
             // 
@@ -1953,7 +1953,7 @@ namespace SleckEc2KdInterface
             this.dataGridView6.RowsDefaultCellStyle = dataGridViewCellStyle170;
             this.dataGridView6.RowTemplate.Height = 23;
             this.dataGridView6.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView6.Size = new System.Drawing.Size(200, 60);
+            this.dataGridView6.Size = new System.Drawing.Size(200, 0);
             this.dataGridView6.TabIndex = 104;
             // 
             // tabPage9
@@ -1962,7 +1962,7 @@ namespace SleckEc2KdInterface
             this.tabPage9.Controls.Add(this.dataGridView7);
             this.tabPage9.Location = new System.Drawing.Point(0, 40);
             this.tabPage9.Name = "tabPage9";
-            this.tabPage9.Size = new System.Drawing.Size(200, 60);
+            this.tabPage9.Size = new System.Drawing.Size(200, 0);
             this.tabPage9.TabIndex = 2;
             this.tabPage9.Text = "退货明细";
             // 
@@ -2011,7 +2011,7 @@ namespace SleckEc2KdInterface
             this.dataGridView7.RowsDefaultCellStyle = dataGridViewCellStyle174;
             this.dataGridView7.RowTemplate.Height = 23;
             this.dataGridView7.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView7.Size = new System.Drawing.Size(200, 60);
+            this.dataGridView7.Size = new System.Drawing.Size(200, 0);
             this.dataGridView7.TabIndex = 104;
             // 
             // tableLayoutPanelReconcileSummary
@@ -2028,7 +2028,7 @@ namespace SleckEc2KdInterface
             this.tableLayoutPanelReconcileSummary.Padding = new System.Windows.Forms.Padding(3);
             this.tableLayoutPanelReconcileSummary.RowCount = 1;
             this.tableLayoutPanelReconcileSummary.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelReconcileSummary.Size = new System.Drawing.Size(200, 225);
+            this.tableLayoutPanelReconcileSummary.Size = new System.Drawing.Size(1453, 225);
             this.tableLayoutPanelReconcileSummary.TabIndex = 6;
             // 
             // dataGridView4
@@ -2090,7 +2090,7 @@ namespace SleckEc2KdInterface
             this.dataGridView4.RowsDefaultCellStyle = dataGridViewCellStyle178;
             this.dataGridView4.RowTemplate.Height = 23;
             this.dataGridView4.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView4.Size = new System.Drawing.Size(156, 213);
+            this.dataGridView4.Size = new System.Drawing.Size(1221, 213);
             this.dataGridView4.TabIndex = 103;
             this.dataGridView4.RowPostPaint += new System.Windows.Forms.DataGridViewRowPostPaintEventHandler(this.dataGridView4_RowPostPaint);
             // 
@@ -2184,13 +2184,13 @@ namespace SleckEc2KdInterface
             this.uirichtxt.Dock = System.Windows.Forms.DockStyle.Fill;
             this.uirichtxt.FillColor = System.Drawing.Color.White;
             this.uirichtxt.Font = new System.Drawing.Font("微软雅黑", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.uirichtxt.Location = new System.Drawing.Point(171, 8);
+            this.uirichtxt.Location = new System.Drawing.Point(1236, 8);
             this.uirichtxt.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.uirichtxt.MinimumSize = new System.Drawing.Size(1, 1);
             this.uirichtxt.Name = "uirichtxt";
             this.uirichtxt.Padding = new System.Windows.Forms.Padding(2);
             this.uirichtxt.ShowText = false;
-            this.uirichtxt.Size = new System.Drawing.Size(22, 209);
+            this.uirichtxt.Size = new System.Drawing.Size(210, 209);
             this.uirichtxt.Style = Sunny.UI.UIStyle.Custom;
             this.uirichtxt.TabIndex = 4;
             this.uirichtxt.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2214,7 +2214,7 @@ namespace SleckEc2KdInterface
             this.uiGroupBox2.MinimumSize = new System.Drawing.Size(1, 1);
             this.uiGroupBox2.Name = "uiGroupBox2";
             this.uiGroupBox2.Padding = new System.Windows.Forms.Padding(0, 32, 0, 0);
-            this.uiGroupBox2.Size = new System.Drawing.Size(200, 60);
+            this.uiGroupBox2.Size = new System.Drawing.Size(1453, 60);
             this.uiGroupBox2.Style = Sunny.UI.UIStyle.Custom;
             this.uiGroupBox2.TabIndex = 2;
             this.uiGroupBox2.Text = "查询";
@@ -2370,7 +2370,7 @@ namespace SleckEc2KdInterface
             this.tabPage5.Controls.Add(this.tableLayoutPanelBaseData);
             this.tabPage5.Location = new System.Drawing.Point(0, 40);
             this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Size = new System.Drawing.Size(200, 60);
+            this.tabPage5.Size = new System.Drawing.Size(1453, 548);
             this.tabPage5.TabIndex = 4;
             this.tabPage5.Text = "基础资料";
             this.tabPage5.UseVisualStyleBackColor = true;
@@ -2390,7 +2390,7 @@ namespace SleckEc2KdInterface
             this.tableLayoutPanelBaseData.RowCount = 2;
             this.tableLayoutPanelBaseData.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 56F));
             this.tableLayoutPanelBaseData.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelBaseData.Size = new System.Drawing.Size(200, 60);
+            this.tableLayoutPanelBaseData.Size = new System.Drawing.Size(1453, 548);
             this.tableLayoutPanelBaseData.TabIndex = 0;
             // 
             // panelBaseDataToolbar
@@ -2410,7 +2410,7 @@ namespace SleckEc2KdInterface
             this.panelBaseDataToolbar.Location = new System.Drawing.Point(3, 3);
             this.panelBaseDataToolbar.Margin = new System.Windows.Forms.Padding(0);
             this.panelBaseDataToolbar.Name = "panelBaseDataToolbar";
-            this.panelBaseDataToolbar.Size = new System.Drawing.Size(194, 56);
+            this.panelBaseDataToolbar.Size = new System.Drawing.Size(1447, 56);
             this.panelBaseDataToolbar.TabIndex = 0;
             // 
             // uiTxtName
@@ -2508,7 +2508,7 @@ namespace SleckEc2KdInterface
             this.uiRichTextBox2.Name = "uiRichTextBox2";
             this.uiRichTextBox2.Padding = new System.Windows.Forms.Padding(2);
             this.uiRichTextBox2.ShowText = false;
-            this.uiRichTextBox2.Size = new System.Drawing.Size(1, 1);
+            this.uiRichTextBox2.Size = new System.Drawing.Size(1254, 1);
             this.uiRichTextBox2.Style = Sunny.UI.UIStyle.Custom;
             this.uiRichTextBox2.TabIndex = 21;
             this.uiRichTextBox2.TextAlignment = System.Drawing.ContentAlignment.MiddleCenter;
@@ -2608,7 +2608,7 @@ namespace SleckEc2KdInterface
             this.dataGridView8.RowsDefaultCellStyle = dataGridViewCellStyle182;
             this.dataGridView8.RowTemplate.Height = 23;
             this.dataGridView8.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView8.Size = new System.Drawing.Size(188, 1);
+            this.dataGridView8.Size = new System.Drawing.Size(1441, 480);
             this.dataGridView8.TabIndex = 102;
             // 
             // tabPage10
@@ -2617,7 +2617,7 @@ namespace SleckEc2KdInterface
             this.tabPage10.Controls.Add(this.tableLayoutPanelWdtPage);
             this.tabPage10.Location = new System.Drawing.Point(0, 40);
             this.tabPage10.Name = "tabPage10";
-            this.tabPage10.Size = new System.Drawing.Size(200, 60);
+            this.tabPage10.Size = new System.Drawing.Size(1453, 548);
             this.tabPage10.TabIndex = 6;
             this.tabPage10.Text = "查询旺店通订单信息";
             // 
@@ -2636,7 +2636,7 @@ namespace SleckEc2KdInterface
             this.tableLayoutPanelWdtPage.RowCount = 2;
             this.tableLayoutPanelWdtPage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             this.tableLayoutPanelWdtPage.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelWdtPage.Size = new System.Drawing.Size(200, 60);
+            this.tableLayoutPanelWdtPage.Size = new System.Drawing.Size(1453, 548);
             this.tableLayoutPanelWdtPage.TabIndex = 0;
             // 
             // panelWdtToolbar
@@ -2660,7 +2660,7 @@ namespace SleckEc2KdInterface
             this.panelWdtToolbar.Location = new System.Drawing.Point(3, 3);
             this.panelWdtToolbar.Margin = new System.Windows.Forms.Padding(0);
             this.panelWdtToolbar.Name = "panelWdtToolbar";
-            this.panelWdtToolbar.Size = new System.Drawing.Size(194, 59);
+            this.panelWdtToolbar.Size = new System.Drawing.Size(1447, 59);
             this.panelWdtToolbar.TabIndex = 0;
             // 
             // uiButton46
@@ -2872,7 +2872,7 @@ namespace SleckEc2KdInterface
             this.tableLayoutPanelWdtOrders.Padding = new System.Windows.Forms.Padding(3);
             this.tableLayoutPanelWdtOrders.RowCount = 1;
             this.tableLayoutPanelWdtOrders.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelWdtOrders.Size = new System.Drawing.Size(188, 1);
+            this.tableLayoutPanelWdtOrders.Size = new System.Drawing.Size(1441, 477);
             this.tableLayoutPanelWdtOrders.TabIndex = 1;
             // 
             // dataGridView9
@@ -2921,7 +2921,7 @@ namespace SleckEc2KdInterface
             this.dataGridView9.RowsDefaultCellStyle = dataGridViewCellStyle186;
             this.dataGridView9.RowTemplate.Height = 23;
             this.dataGridView9.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView9.Size = new System.Drawing.Size(57, 1);
+            this.dataGridView9.Size = new System.Drawing.Size(496, 465);
             this.dataGridView9.TabIndex = 101;
             // 
             // dataGridView10
@@ -2953,7 +2953,7 @@ namespace SleckEc2KdInterface
             this.dataGridView10.DefaultCellStyle = dataGridViewCellStyle188;
             this.dataGridView10.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView10.GridColor = System.Drawing.Color.DodgerBlue;
-            this.dataGridView10.Location = new System.Drawing.Point(141, 6);
+            this.dataGridView10.Location = new System.Drawing.Point(1082, 6);
             this.dataGridView10.Name = "dataGridView10";
             dataGridViewCellStyle189.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle189.BackColor = System.Drawing.SystemColors.Control;
@@ -2970,7 +2970,7 @@ namespace SleckEc2KdInterface
             this.dataGridView10.RowsDefaultCellStyle = dataGridViewCellStyle190;
             this.dataGridView10.RowTemplate.Height = 23;
             this.dataGridView10.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView10.Size = new System.Drawing.Size(41, 1);
+            this.dataGridView10.Size = new System.Drawing.Size(353, 465);
             this.dataGridView10.TabIndex = 109;
             // 
             // dataGridView12
@@ -3002,7 +3002,7 @@ namespace SleckEc2KdInterface
             this.dataGridView12.DefaultCellStyle = dataGridViewCellStyle192;
             this.dataGridView12.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dataGridView12.GridColor = System.Drawing.Color.DodgerBlue;
-            this.dataGridView12.Location = new System.Drawing.Point(69, 6);
+            this.dataGridView12.Location = new System.Drawing.Point(508, 6);
             this.dataGridView12.Name = "dataGridView12";
             dataGridViewCellStyle193.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle193.BackColor = System.Drawing.SystemColors.Control;
@@ -3019,7 +3019,7 @@ namespace SleckEc2KdInterface
             this.dataGridView12.RowsDefaultCellStyle = dataGridViewCellStyle194;
             this.dataGridView12.RowTemplate.Height = 23;
             this.dataGridView12.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView12.Size = new System.Drawing.Size(66, 1);
+            this.dataGridView12.Size = new System.Drawing.Size(568, 465);
             this.dataGridView12.TabIndex = 118;
             this.dataGridView12.Visible = false;
             // 
@@ -3028,9 +3028,9 @@ namespace SleckEc2KdInterface
             this.richTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.richTextBox1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.richTextBox1.Font = new System.Drawing.Font("仿宋", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.richTextBox1.Location = new System.Drawing.Point(6, 7);
+            this.richTextBox1.Location = new System.Drawing.Point(6, 477);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(57, 488);
+            this.richTextBox1.Size = new System.Drawing.Size(496, 488);
             this.richTextBox1.TabIndex = 108;
             this.richTextBox1.Text = "";
             // 
@@ -3350,7 +3350,7 @@ namespace SleckEc2KdInterface
             this.tabPage12.Controls.Add(this.tableLayoutPanelPackingQuery);
             this.tabPage12.Location = new System.Drawing.Point(0, 40);
             this.tabPage12.Name = "tabPage12";
-            this.tabPage12.Size = new System.Drawing.Size(200, 60);
+            this.tabPage12.Size = new System.Drawing.Size(1453, 548);
             this.tabPage12.TabIndex = 8;
             this.tabPage12.Text = "查询装箱";
             // 
@@ -3369,7 +3369,7 @@ namespace SleckEc2KdInterface
             this.tableLayoutPanelPackingQuery.RowCount = 2;
             this.tableLayoutPanelPackingQuery.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 59F));
             this.tableLayoutPanelPackingQuery.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanelPackingQuery.Size = new System.Drawing.Size(200, 60);
+            this.tableLayoutPanelPackingQuery.Size = new System.Drawing.Size(1453, 548);
             this.tableLayoutPanelPackingQuery.TabIndex = 0;
             // 
             // panelPackingToolbar
@@ -3389,7 +3389,7 @@ namespace SleckEc2KdInterface
             this.panelPackingToolbar.Location = new System.Drawing.Point(3, 3);
             this.panelPackingToolbar.Margin = new System.Windows.Forms.Padding(0);
             this.panelPackingToolbar.Name = "panelPackingToolbar";
-            this.panelPackingToolbar.Size = new System.Drawing.Size(194, 59);
+            this.panelPackingToolbar.Size = new System.Drawing.Size(1447, 59);
             this.panelPackingToolbar.TabIndex = 0;
             // 
             // uiButton45
@@ -3571,7 +3571,7 @@ namespace SleckEc2KdInterface
             this.dataGridView15.RowsDefaultCellStyle = dataGridViewCellStyle210;
             this.dataGridView15.RowTemplate.Height = 23;
             this.dataGridView15.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.dataGridView15.Size = new System.Drawing.Size(188, 1);
+            this.dataGridView15.Size = new System.Drawing.Size(1441, 477);
             this.dataGridView15.TabIndex = 102;
             // 
             // 记录排训
@@ -3668,6 +3668,7 @@ namespace SleckEc2KdInterface
             // 
             // Form5
             // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
             this.ClientSize = new System.Drawing.Size(1459, 629);
             this.Controls.Add(this.uiTabControl1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
